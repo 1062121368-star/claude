@@ -3,265 +3,548 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>卡罗账号选题决策地图 V1.0</title>
+<title>卡罗账号内容运营报告 V2.0</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F5F4F0;color:#1A1A1A;font-size:14px;line-height:1.6}
-.page{max-width:1080px;margin:0 auto;padding:48px 28px 80px}
-.hd{margin-bottom:32px}
-.hd h1{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
-.hd .pos{font-size:13px;color:#999;margin-bottom:8px}
-.hd p{font-size:13px;color:#777;max-width:640px;line-height:1.7}
-.hd p strong{color:#444;font-weight:500}
-.checklist{display:flex;gap:0;margin-bottom:28px;background:#fff;border-radius:10px;border:1px solid #E6E4DE;overflow:hidden;flex-wrap:wrap}
-.ci{flex:1;min-width:200px;padding:12px 16px;border-right:1px solid #F0EDE6;font-size:12px;color:#666}
-.ci:last-child{border-right:none}
-.ci strong{color:#333;display:block;margin-bottom:2px}
-.ci-n{display:inline-flex;width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;margin-right:5px;vertical-align:middle}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
-.ld{display:flex;align-items:center;gap:6px;font-size:12px;color:#777}
-.ls{width:12px;height:4px;border-radius:2px;flex-shrink:0}
-.lsep{flex:1}
-.lb{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
-.lb-a{background:#EEEDFE;color:#3C3489}
-.lb-b{background:#E1F5EE;color:#085041}
-.lb-c{background:#F1EFE8;color:#5F5E5A}
-.grp{margin-bottom:28px}
-.grp-t{font-size:11px;font-weight:600;letter-spacing:.08em;color:#999;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.grp-t::after{content:'';flex:1;height:1px;background:#E6E4DE}
-.card{background:#fff;border:1px solid #E6E4DE;border-radius:10px;margin-bottom:6px;overflow:hidden;transition:box-shadow .15s}
-.card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.card-inner{display:grid;grid-template-columns:188px 1fr 1fr;min-height:90px}
-.ct{position:relative;padding:14px 14px 14px 18px;border-right:1px solid #F0EDE6}
-.ac{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
-.tn{font-size:13px;font-weight:600;color:#111;margin-bottom:3px;line-height:1.4}
-.ts{font-size:11px;color:#999;line-height:1.45;margin-bottom:5px}
-.tbadge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:20px}
-.cm{padding:13px 14px;border-right:1px solid #F0EDE6}
-.cl{font-size:10px;font-weight:600;letter-spacing:.06em;margin-bottom:6px}
-.ms{font-size:12px;color:#555;line-height:1.55;margin-bottom:6px}
-.mq{font-size:11px;color:#888;font-style:italic;line-height:1.5;padding:4px 8px;background:#F9F8F5;border-left:2px solid #DDD;border-radius:0 3px 3px 0;margin-bottom:4px}
-.mq:last-child{margin-bottom:0}
-.tp{padding:13px 14px}
-.tl{display:flex;flex-direction:column;gap:4px}
-.ti{display:flex;align-items:flex-start;gap:6px;padding:5px 8px;border-radius:5px;border:1px solid #F0EDE6}
-.tb{flex-shrink:0;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-top:1px;white-space:nowrap}
-.tb-a{background:#EEEDFE;color:#3C3489}
-.tb-b{background:#E1F5EE;color:#085041}
-.tb-c{background:#F1EFE8;color:#5F5E5A}
-.tt{font-size:11px;font-weight:500;color:#222;line-height:1.4;margin-bottom:1px}
-.tw{font-size:10px;color:#999;line-height:1.4}
-.arr{display:flex;align-items:center;gap:5px;font-size:10px;color:#AAA;padding:5px 0 0;flex-wrap:wrap}
-.as{padding:2px 7px;border-radius:20px;background:#F5F4F0;border:1px solid #E6E4DE;color:#666;white-space:nowrap}
-.as.k{background:#EEEDFE;border-color:#C8C3F0;color:#3C3489;font-weight:500}
-.as.e{background:#E1F5EE;border-color:#99D9C5;color:#085041;font-weight:500}
-.sep{color:#CCC}
-/* group colors */
-.life .ac{background:#C47B8E}
-.life .ti{border-color:#F5E0E7}
-.life .ti:hover{background:#FDF5F7}
-.life .cl{color:#C47B8E}
-.asset .ac{background:#7A9E6E}
-.asset .ti{border-color:#E2EFE0}
-.asset .ti:hover{background:#F4FAF3}
-.asset .cl{color:#7A9E6E}
-.id .ac{background:#7B8EC8}
-.id .ti{border-color:#DDE3F5}
-.id .ti:hover{background:#F3F5FC}
-.id .cl{color:#7B8EC8}
-.card.hl{border-color:#D4C8A8}
-.card.hl .ct{background:#FDFBF5}
-.card.hl .ti{border-color:#EDE3C4}
-.note{margin-top:28px;padding:14px 18px;background:#fff;border:1px solid #E6E4DE;border-radius:10px;font-size:12px;color:#888;line-height:1.9}
-.note strong{color:#555;font-weight:500}
-.ver{margin-top:12px;font-size:11px;color:#CCC;text-align:right}
-@media(max-width:800px){
-  .card-inner{grid-template-columns:1fr}
-  .ct,.cm{border-right:none;border-bottom:1px solid #F0EDE6}
-  .ct{padding-left:20px}
-  .checklist{flex-direction:column}
-  .ci{border-right:none;border-bottom:1px solid #F0EDE6}
-  .ci:last-child{border-bottom:none}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F5F4F0;color:#1A1A1A;font-size:14px;line-height:1.7}
+a{color:inherit;text-decoration:none}
+
+/* Layout */
+.sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:#fff;border-right:1px solid #E8E6E0;overflow-y:auto;padding:28px 0;z-index:100}
+.main{margin-left:220px;padding:48px 56px 100px}
+.inner{max-width:860px}
+
+/* Sidebar */
+.sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #F0EDE6;margin-bottom:16px}
+.sidebar-logo .name{font-size:13px;font-weight:600;color:#111;margin-bottom:2px}
+.sidebar-logo .ver{font-size:11px;color:#AAA}
+.nav-section{padding:6px 20px 2px;font-size:10px;font-weight:600;letter-spacing:.08em;color:#BBB;text-transform:uppercase}
+.nav-item{display:block;padding:6px 20px;font-size:12px;color:#666;cursor:pointer;transition:background .1s}
+.nav-item:hover{background:#F7F6F3;color:#333}
+.nav-item.active{color:#111;font-weight:500;background:#F2F0EA}
+.nav-sub{padding:4px 20px 4px 32px;font-size:11px;color:#999;cursor:pointer}
+.nav-sub:hover{color:#555}
+
+/* Page sections */
+.section{margin-bottom:64px;scroll-margin-top:40px}
+.page-title{font-size:26px;font-weight:600;color:#111;letter-spacing:-.02em;margin-bottom:8px}
+.page-subtitle{font-size:13px;color:#888;margin-bottom:36px;line-height:1.7;max-width:600px}
+.page-subtitle strong{color:#555;font-weight:500}
+
+/* Section headers */
+.sec-num{font-size:11px;font-weight:600;letter-spacing:.08em;color:#BBB;text-transform:uppercase;margin-bottom:6px}
+.sec-title{font-size:20px;font-weight:600;color:#111;margin-bottom:16px;letter-spacing:-.01em}
+.sec-title-sm{font-size:16px;font-weight:600;color:#222;margin-bottom:12px;margin-top:28px}
+.sec-divider{height:1px;background:#E8E6E0;margin:48px 0}
+
+/* Cards */
+.card{background:#fff;border:1px solid #E8E6E0;border-radius:10px;padding:20px 24px;margin-bottom:10px}
+.card-sm{background:#fff;border:1px solid #E8E6E0;border-radius:8px;padding:14px 18px;margin-bottom:8px}
+
+/* Highlight box */
+.hbox{border-radius:10px;padding:18px 22px;margin:16px 0}
+.hbox.blue{background:#EEF4FF;border:1px solid #C5D8F8}
+.hbox.amber{background:#FFF8EE;border:1px solid #F5D99A}
+.hbox.green{background:#F0FAF4;border:1px solid #A8DBBA}
+.hbox.gray{background:#F5F4F0;border:1px solid #E0DDD5}
+.hbox .hbox-title{font-size:12px;font-weight:600;color:#555;margin-bottom:8px}
+.hbox p{font-size:13px;color:#555;line-height:1.7;margin-bottom:6px}
+.hbox p:last-child{margin-bottom:0}
+.hbox strong{color:#333;font-weight:500}
+
+/* Principle bar */
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border:1px solid #E8E6E0;border-radius:10px;overflow:hidden;margin-bottom:28px}
+.p-item{padding:14px 16px;border-right:1px solid #F0EDE6;font-size:12px;color:#666}
+.p-item:last-child{border-right:none}
+.p-item strong{display:block;color:#333;margin-bottom:3px;font-size:12px}
+.p-num{display:inline-flex;width:18px;height:18px;border-radius:50%;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;margin-right:5px;vertical-align:middle}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0}
+.tbl th{background:#F5F4F0;font-size:12px;font-weight:600;color:#666;padding:8px 12px;border:1px solid #E8E6E0;text-align:left}
+.tbl td{font-size:12px;color:#444;padding:8px 12px;border:1px solid #E8E6E0;line-height:1.55}
+.tbl tr:hover td{background:#FAFAF8}
+
+/* Trigger cards */
+.tcard{background:#fff;border:1px solid #E8E6E0;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.tcard-head{display:flex;align-items:center;gap:10px;padding:14px 18px 12px;border-bottom:1px solid #F5F3ED;cursor:pointer}
+.tcard-head:hover{background:#FDFCFA}
+.tcard-accent{width:4px;height:36px;border-radius:2px;flex-shrink:0}
+.tcard-title{font-size:13px;font-weight:600;color:#111;flex:1}
+.tcard-sub{font-size:11px;color:#999;display:block;margin-top:2px;font-weight:400}
+.tbadge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.tcard-body{padding:16px 18px}
+.tcard-body .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stuck-label{font-size:10px;font-weight:600;letter-spacing:.06em;color:#C4A55A;margin-bottom:7px}
+.stuck-text{font-size:12px;color:#555;line-height:1.6;margin-bottom:10px}
+.mq{font-size:11px;color:#888;font-style:italic;padding:5px 10px;background:#F9F8F5;border-left:2px solid #DDD;border-radius:0 4px 4px 0;margin-bottom:5px;line-height:1.5}
+.path-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:10px}
+.pstep{font-size:10px;padding:3px 8px;border-radius:20px;background:#F5F4F0;border:1px solid #E6E4DE;color:#666;white-space:nowrap}
+.pstep.key{background:#EEEDFE;border-color:#C8C3F0;color:#3C3489;font-weight:500}
+.pstep.end{background:#E1F5EE;border-color:#99D9C5;color:#085041;font-weight:500}
+.psep{font-size:10px;color:#CCC}
+
+/* Topic list */
+.topics-label{font-size:10px;font-weight:600;letter-spacing:.06em;color:#999;margin-bottom:8px}
+.tlist{display:flex;flex-direction:column;gap:5px}
+.titem{display:flex;align-items:flex-start;gap:7px;padding:7px 10px;border-radius:6px;border:1px solid #F0EDE6}
+.titem .grade{flex-shrink:0;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-top:1px;white-space:nowrap}
+.grade-a{background:#EEEDFE;color:#3C3489}
+.grade-b{background:#E1F5EE;color:#085041}
+.grade-c{background:#F1EFE8;color:#5F5E5A}
+.grade-p{background:#FEF9EE;color:#854F0B}
+.titem .ttext .ttitle{font-size:11px;font-weight:500;color:#222;line-height:1.4;margin-bottom:2px}
+.titem .ttext .twhy{font-size:10px;color:#999;line-height:1.4}
+
+/* Colors */
+.c-rose .tcard-accent{background:#C47B8E}
+.c-rose .titem{border-color:#F5E0E7}
+.c-rose .titem:hover{background:#FDF5F7}
+.c-green .tcard-accent{background:#7A9E6E}
+.c-green .titem{border-color:#E2EFE0}
+.c-green .titem:hover{background:#F4FAF3}
+.c-blue .tcard-accent{background:#7B8EC8}
+.c-blue .titem{border-color:#DDE3F5}
+.c-blue .titem:hover{background:#F3F5FC}
+.tcard.hl{border-color:#D4C8A8}
+.tcard.hl .tcard-head{background:#FDFBF5}
+
+/* User stage cards */
+.stage-card{background:#fff;border:1px solid #E8E6E0;border-radius:10px;overflow:hidden;margin-bottom:14px}
+.stage-head{padding:14px 20px;border-bottom:1px solid #F0EDE6}
+.stage-head .st{font-size:15px;font-weight:600;color:#111;margin-bottom:3px}
+.stage-head .ss{font-size:12px;color:#999}
+.stage-body{padding:0}
+.stage-row{display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid #F5F3ED}
+.stage-row:last-child{border-bottom:none}
+.stage-key{padding:12px 14px;font-size:11px;font-weight:500;color:#888;border-right:1px solid #F5F3ED;display:flex;align-items:flex-start;background:#FAFAF8}
+.stage-val{padding:12px 16px;font-size:12px;color:#444;line-height:1.6}
+.quote-block{margin-top:6px}
+.q{font-size:11px;color:#888;font-style:italic;padding:4px 8px;background:#F9F8F5;border-left:2px solid #DDD;border-radius:0 3px 3px 0;margin-bottom:4px;line-height:1.5}
+.q:last-child{margin-bottom:0}
+
+/* Persona table */
+.persona-grid{display:grid;grid-template-columns:120px 1fr;gap:0;background:#fff;border:1px solid #E8E6E0;border-radius:10px;overflow:hidden;margin-bottom:12px}
+.pg-key{padding:11px 14px;font-size:12px;font-weight:500;color:#777;background:#F7F6F3;border-right:1px solid #F0EDE6;border-bottom:1px solid #F0EDE6;display:flex;align-items:center}
+.pg-val{padding:11px 16px;font-size:12px;color:#333;border-bottom:1px solid #F0EDE6;line-height:1.55}
+.pg-key:last-of-type,.pg-val:last-of-type{border-bottom:none}
+
+/* Tags */
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.tag{font-size:11px;padding:3px 10px;border-radius:20px;background:#F0EDE6;color:#555}
+.tag.rose{background:#FBEAF0;color:#72243E}
+.tag.green{background:#E1F5EE;color:#085041}
+.tag.blue{background:#DDE3F5;color:#2D4A9A}
+.tag.amber{background:#FFF3CD;color:#856404}
+
+/* Bullet list */
+.blist{list-style:none;padding:0}
+.blist li{font-size:13px;color:#444;padding:4px 0 4px 18px;position:relative;line-height:1.6}
+.blist li::before{content:'·';position:absolute;left:4px;color:#AAA;font-weight:700}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.check-item{display:flex;gap:10px;padding:10px 14px;background:#F9F8F5;border-radius:7px;border:1px solid #EEECEA}
+.check-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.check-body strong{display:block;font-size:12px;font-weight:600;color:#222;margin-bottom:2px}
+.check-body span{font-size:11px;color:#777}
+
+/* Week schedule */
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
+.week-day{background:#fff;border:1px solid #E8E6E0;border-radius:8px;padding:12px;text-align:center}
+.week-day .wd-label{font-size:10px;font-weight:600;color:#AAA;letter-spacing:.05em;margin-bottom:8px}
+.week-day .wd-tag{font-size:10px;padding:2px 7px;border-radius:20px;margin-bottom:4px;display:inline-block}
+
+/* Exec rules */
+.rule-card{background:#fff;border:1px solid #E8E6E0;border-radius:10px;padding:18px 22px;margin-bottom:10px}
+.rule-card .rc-title{font-size:13px;font-weight:600;color:#222;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #F0EDE6}
+
+/* Footer */
+.footer{margin-top:80px;padding-top:24px;border-top:1px solid #E8E6E0;font-size:11px;color:#CCC;text-align:right}
+
+/* Responsive */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .main{margin-left:0;padding:28px 20px 80px}
+  .principles{grid-template-columns:1fr 1fr}
+  .tcard-body .grid2{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="page">
 
-<div class="hd">
-  <h1>卡罗账号选题决策地图</h1>
-  <div class="pos">账号定位：陪女性客户走过人生升级节点的财务顾问</div>
-  <p>每条选题出发前先问三个问题：<strong>①她搜索框里会打什么字？②她卡住的是疑虑还是信息缺失？③看完之后她的下一个动作是什么？</strong>答不上来第三个，这条内容就是认知教育，不是获客。</p>
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="name">卡罗账号内容报告</div>
+    <div class="ver">V2.0 · 2026.06</div>
+  </div>
+  <div class="nav-section">概览</div>
+  <a class="nav-item" href="#s1">一、背景与核心判断</a>
+  <a class="nav-item" href="#s2">二、账号定位</a>
+  <a class="nav-item" href="#s3">三、用户深度洞察</a>
+  <div class="nav-section">选题</div>
+  <a class="nav-item" href="#s4">四、选题策略方法论</a>
+  <a class="nav-item" href="#s4a">婚姻家庭节点</a>
+  <a class="nav-item" href="#s4b">资产配置节点</a>
+  <a class="nav-item" href="#s4c">身份认知节点</a>
+  <div class="nav-section">执行</div>
+  <a class="nav-item" href="#s5">五、人格内容</a>
+  <a class="nav-item" href="#s6">六、执行规则</a>
+</nav>
+
+<main class="main">
+<div class="inner">
+
+<div class="page-title">卡罗账号内容运营报告</div>
+<div class="page-subtitle">账号定位 · 用户洞察 · 选题策略 · 执行框架<br>
+每条选题都要回答：<strong>她搜索框里打什么字，看完之后她的下一个动作是什么。</strong></div>
+
+<!-- ===== 一、背景与核心判断 ===== -->
+<div class="section" id="s1">
+  <div class="sec-num">Part 01</div>
+  <div class="sec-title">背景与核心判断</div>
+
+  <div class="sec-title-sm">1.1 数据依据</div>
+  <ul class="blist">
+    <li>卡罗5月留资表（137条留资记录，含客户背景与完整沟通记录）</li>
+    <li>卡罗IP内容总控讨论记录（原始讨论过程版）</li>
+    <li>账号负责人工作机制文档 V1.0</li>
+    <li>港险内容团队内容运营策略讨论</li>
+  </ul>
+
+  <div class="sec-title-sm">1.2 当前账号的核心问题</div>
+  <p style="font-size:13px;color:#555;margin-bottom:12px">5月留资表显示，137条留资中超过85%来源于开卡攻略和汇丰开户等内容，用户意图以炒股和日常消费为主，男性用户占绝大多数。</p>
+  <table class="tbl">
+    <tr><th>问题</th><th>表现</th><th>后果</th></tr>
+    <tr><td>钩子与目标客群错配</td><td>开卡内容吸引想炒股/消费的用户，不是资产配置受众</td><td>大量沟通精力消耗在低意向用户上</td></tr>
+    <tr><td>卡罗优势未发挥</td><td>擅长与女性客户建立信任，但现有留资中女性极少</td><td>最轻松、最高效的客群没有被触达</td></tr>
+    <tr><td>内容平台风险</td><td>开卡/开户类内容被平台持续收紧</td><td>账号稳定性存在隐患</td></tr>
+  </table>
+
+  <div class="sec-title-sm">1.3 核心判断</div>
+  <div class="hbox blue">
+    <div class="hbox-title">卡罗不需要换人群，需要换钩子</div>
+    <p>现在用「开卡」做钩子，100个留资里只有2-3个是目标客户。</p>
+    <p>换用「婚姻节点资产安排」「给孩子锁一笔钱」做钩子，10个留资里可能有6-7个是目标客户。</p>
+    <p>数量减少，但每一个都值得深度跟进，<strong>谈单效率大幅提升</strong>。</p>
+  </div>
+
+  <div class="sec-title-sm">1.4 留资表典型客户标注</div>
+  <p style="font-size:13px;color:#555;margin-bottom:10px">以下三条均被开卡内容吸引进来，但真实需求远超开户。换钩子后，这类客户占比将显著提升。</p>
+  <table class="tbl">
+    <tr><th>客户</th><th>描述</th><th>真实需求</th><th>阶段</th></tr>
+    <tr><td>Jeff（第20条）</td><td>做贸易、两个小孩6岁和10岁、考虑资产配置+信托、搬深圳</td><td>家庭资产配置+孩子教育金</td><td>阶段三</td></tr>
+    <tr><td>向向（第64条）</td><td>武汉做财务、孩子要出国、每年投入20万、来港做脸顺便了解储蓄</td><td>教育金+长期储蓄</td><td>阶段三</td></tr>
+    <tr><td>吕先生（第41条）</td><td>深圳收租、两个小孩（小学+2岁）、来港开户</td><td>孩子教育金+家庭配置</td><td>阶段三</td></tr>
+  </table>
+  <p style="font-size:11px;color:#999;margin-top:6px;font-style:italic">向向是卡罗最理想的客户原型：有资产、有需求、谈单轻松、复购和转介绍潜力强。</p>
 </div>
 
-<div class="checklist">
-  <div class="ci"><span class="ci-n" style="background:#C47B8E">1</span><strong>她已经决定了方向</strong>不需要被说服为什么要做</div>
-  <div class="ci"><span class="ci-n" style="background:#7A9E6E">2</span><strong>她卡在具体疑虑上</strong>内容精准消除这个疑虑</div>
-  <div class="ci"><span class="ci-n" style="background:#7B8EC8">3</span><strong>她在找可信任的人</strong>卡罗的经历让她感到"懂我"</div>
-  <div class="ci"><span class="ci-n" style="background:#854F0B">4</span><strong>给她第一步</strong>不是产品介绍，帮她走完这一步</div>
+<div class="sec-divider"></div>
+
+<!-- ===== 二、账号定位 ===== -->
+<div class="section" id="s2">
+  <div class="sec-num">Part 02</div>
+  <div class="sec-title">账号定位</div>
+
+  <div style="text-align:center;padding:24px;background:#fff;border:1px solid #E8E6E0;border-radius:10px;margin-bottom:20px">
+    <div style="font-size:20px;font-weight:600;color:#111;margin-bottom:6px">陪女性客户走过人生升级节点的财务顾问</div>
+    <div style="font-size:12px;color:#999">不是保险顾问，不是理财博主，是「懂你这个阶段在做什么决定」的人</div>
+  </div>
+
+  <div class="sec-title-sm">2.1 目标用户画像</div>
+  <div style="background:#fff;border:1px solid #E8E6E0;border-radius:10px;overflow:hidden;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:110px 1fr">
+      <div class="pg-key">核心人群</div><div class="pg-val">有资产、有家庭节点、需要做财务安排的女性</div>
+      <div class="pg-key">年龄区间</div><div class="pg-val">28–38岁</div>
+      <div class="pg-key">收入水平</div><div class="pg-val">家庭年收入50万以上，有可配置资金</div>
+      <div class="pg-key">典型处境</div><div class="pg-val">婚前有积蓄 / 已婚有孩子 / 开始认真考虑长期资产安排</div>
+      <div class="pg-key">配置预算</div><div class="pg-val">总保费100–300万人民币区间</div>
+      <div class="pg-key" style="border-bottom:none">典型原型</div><div class="pg-val" style="border-bottom:none">向向：武汉做财务，孩子要出国，每年投入20万，来港做脸顺便了解储蓄</div>
+    </div>
+  </div>
+
+  <div class="sec-title-sm">2.2 与其他账号的边界</div>
+  <table class="tbl" style="margin-bottom:8px">
+    <tr><th>账号</th><th>核心人群</th><th>内容角度</th></tr>
+    <tr><td><strong>卡罗</strong></td><td>已婚 / 有孩子 / 婚姻家庭节点的女性</td><td>婚姻、孩子、家庭资产的决策场景</td></tr>
+    <tr><td>熙纶</td><td>不婚 / 丁克 / 高收入单身男性</td><td>自己给自己兜底，第二套系统</td></tr>
+    <tr><td>特老师</td><td>有孩子、关注教育规划的家长</td><td>孩子未来的资金安排</td></tr>
+  </table>
+  <p style="font-size:11px;color:#999;font-style:italic">卡罗和熙纶的女性用户几乎不重叠——熙纶打不婚单身，卡罗打有家庭节点的女性。</p>
+
+  <div class="sec-title-sm">2.3 不是什么</div>
+  <ul class="blist">
+    <li>不是港险销售账号——产品只是答案，不是内容主角</li>
+    <li>不是理财博主——不讲宏观，不讲收益率，不做知识科普</li>
+    <li>不是中环金融女人设——身份光环吸引的是粉丝，不是客户</li>
+    <li>不是逆袭故事——卡罗家庭条件不错，强行逆袭叙事不真实</li>
+  </ul>
 </div>
 
-<div class="legend">
-  <div class="ld"><div class="ls" style="background:#C47B8E"></div>婚姻家庭节点</div>
-  <div class="ld"><div class="ls" style="background:#7A9E6E"></div>资产配置节点</div>
-  <div class="ld"><div class="ls" style="background:#7B8EC8"></div>身份认知节点</div>
-  <div class="lsep"></div>
-  <span class="lb lb-a">A级优先</span>
-  <span class="lb lb-b">B级稳定</span>
-  <span class="lb lb-c">C级补充</span>
+<div class="sec-divider"></div>
+
+<!-- ===== 三、用户洞察 ===== -->
+<div class="section" id="s3">
+  <div class="sec-num">Part 03</div>
+  <div class="sec-title">目标用户深度洞察</div>
+  <p style="font-size:13px;color:#777;margin-bottom:24px">主攻三个人生阶段。每个阶段的人有不同的决策困境，需要不同的内容接住她。</p>
+
+  <div class="stage-card">
+    <div class="stage-head">
+      <div class="st">阶段一：钱开始变多，第一次认真想「放哪里」</div>
+      <div class="ss">25–33岁 · 升职/跳槽/年终奖后 · 理财意识刚觉醒</div>
+    </div>
+    <div class="stage-body">
+      <div class="stage-row"><div class="stage-key">真实处境</div><div class="stage-val">月收入2-5万，手头开始有存款，可能买过基金亏过钱。身边有人聊港险/港卡，自己模糊感觉「应该做点什么」，但不知道从哪里开始。</div></div>
+      <div class="stage-row"><div class="stage-key">核心焦虑</div><div class="stage-val">不是「怕亏钱」，是「什么都不做，别人已经开始了」。焦虑来自信息差和落后感，不是资产损失。</div></div>
+      <div class="stage-row"><div class="stage-key">典型原话</div><div class="stage-val">
+        <div class="quote-block">
+          <div class="q">「钱放余额宝感觉不对，但也不知道放哪里好」</div>
+          <div class="q">「周围朋友开了港卡，我还没开，感觉落后了」</div>
+          <div class="q">「香港存钱利息高是真的吗？还是噱头？」</div>
+        </div>
+      </div></div>
+      <div class="stage-row"><div class="stage-key">切入节点</div><div class="stage-val">信息验证期（搜「香港存钱真的高吗」）；有卡不知所措（高意向断层）；需要具体数字让她看见不动的代价</div></div>
+      <div class="stage-row" style="border-bottom:none"><div class="stage-key">内容原则</div><div class="stage-val">给结论，不给分析。「选汇丰」比「汇丰有这些优缺点」有效。她不需要你帮她分析，她需要你帮她决定。</div></div>
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-head">
+      <div class="st">阶段二：婚姻节点，钱开始有「归属」压力</div>
+      <div class="ss">28–36岁 · 结婚前后1-3年 · 第一次思考钱和婚姻的关系</div>
+    </div>
+    <div class="stage-body">
+      <div class="stage-row"><div class="stage-key">真实处境</div><div class="stage-val">婚前有一笔钱，结婚意味着这笔钱的归属要重新定义。她不是不爱对方，但本能地想保留属于自己的财务支点。</div></div>
+      <div class="stage-row"><div class="stage-key">核心焦虑</div><div class="stage-val">不是「不信任对方」，是「不想在婚姻里失去对自己财务的掌控感」。她觉得有点自私，但又觉得这很正常，需要有人告诉她「这样想没有问题」。</div></div>
+      <div class="stage-row"><div class="stage-key">典型原话</div><div class="stage-val">
+        <div class="quote-block">
+          <div class="q">「婚前那50万，我不太想直接放进共同账户，感觉这是我的」</div>
+          <div class="q">「两个人收入合并管理，我怎么保证自己还有一笔说了算的钱」</div>
+          <div class="q">「万一以后出什么问题，我的钱能不能保住」</div>
+        </div>
+      </div></div>
+      <div class="stage-row"><div class="stage-key">卡罗优势</div><div class="stage-val"><strong>意大利婚礼筹备时的真实财务安排经历</strong>——其他账号复制不了。「我当时是这么想的」比任何产品介绍都有力。</div></div>
+      <div class="stage-row" style="border-bottom:none"><div class="stage-key">内容原则</div><div class="stage-val">共情先行——先说出她不好意思说的那句话，再给解决方案。她需要先被理解，再被说服。</div></div>
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-head">
+      <div class="st">阶段三：有孩子，钱第一次有了「任务」</div>
+      <div class="ss">30–40岁 · 孩子0-8岁 · 第一次为10年以上目标配置资金</div>
+    </div>
+    <div class="stage-body">
+      <div class="stage-row"><div class="stage-key">真实处境</div><div class="stage-val">孩子出生后第一次意识到「钱要有规划」。不是为自己增值，是为孩子的未来预留。意识到时间是资产配置最重要的变量，但不知道从哪步动手。</div></div>
+      <div class="stage-row"><div class="stage-key">核心焦虑</div><div class="stage-val">不是「钱够不够」，是「现在不开始，以后就来不及了」。孩子让她第一次理解复利的意义，但不知道从哪一步动手。</div></div>
+      <div class="stage-row"><div class="stage-key">典型原话</div><div class="stage-val">
+        <div class="quote-block">
+          <div class="q">「孩子还小，现在开始存是不是太早了？」（她真正需要的答案是：不早）</div>
+          <div class="q">「给孩子存钱，存哪里最合适？银行？基金？还是保险？」</div>
+          <div class="q">「万一我们出什么事，孩子的教育金能不能不受影响」</div>
+        </div>
+      </div></div>
+      <div class="stage-row"><div class="stage-key">切入节点</div><div class="stage-val">工具选择困难；时间焦虑（数字击穿）；留学金规划（有搜索行为）；「万一我出事」保护意识触发</div></div>
+      <div class="stage-row" style="border-bottom:none"><div class="stage-key">内容原则</div><div class="stage-val">用数字和时间线具体化。「10年后差多少」比「复利很重要」有效100倍。给她一个看得见的未来场景。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- ===== 四、选题策略 ===== -->
+<div class="section" id="s4">
+  <div class="sec-num">Part 04</div>
+  <div class="sec-title">选题策略</div>
+
+  <div class="sec-title-sm">4.1 选题方法论</div>
+  <div class="checklist">
+    <div class="check-item">
+      <div class="check-num" style="background:#C47B8E">1</div>
+      <div class="check-body"><strong>她搜索框里会打什么字？</strong><span>不是话题，是具体问题，精确到搜索词</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-num" style="background:#7A9E6E">2</div>
+      <div class="check-body"><strong>她卡住的是疑虑还是信息缺失？</strong><span>疑虑要消除，信息缺失要填补，写法完全不同</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-num" style="background:#7B8EC8">3</div>
+      <div class="check-body"><strong>这条内容看完之后，她的下一个动作是什么？</strong><span>答不上来，说明这条是认知教育，不是获客内容，重新设计</span></div>
+    </div>
+  </div>
+  <div class="hbox amber" style="margin-top:16px">
+    <div class="hbox-title">核心原则</div>
+    <p>内容的任务不是「说服」，是「接住」。她已经决定了方向，卡在一个具体疑虑上。内容要消除这个疑虑，然后告诉她第一步怎么走。</p>
+    <p>不是教育她「为什么要配置」，不是共情她的处境，是精准接住一个已经决定了的人。</p>
+  </div>
+
+  <div class="sec-title-sm">4.2 内容比例</div>
+  <table class="tbl">
+    <tr><th>类型</th><th>比例</th><th>作用</th><th>每周条数</th></tr>
+    <tr><td>搜索需求类</td><td>70%</td><td>截流高意向用户</td><td>3-4条</td></tr>
+    <tr><td>资产升级类</td><td>20%</td><td>筛选有配置意识的用户</td><td>1-2条</td></tr>
+    <tr><td>人格类</td><td>10%</td><td>建立信任，强化差异化记忆点</td><td>0-1条</td></tr>
+  </table>
 </div>
 
 <!-- 婚姻家庭节点 -->
-<div class="grp">
-  <div class="grp-t">婚姻家庭节点 — 钱的归属和任务发生了变化</div>
+<div class="section" id="s4a">
+  <div class="sec-num">选题方向 A</div>
+  <div class="sec-title" style="color:#C47B8E">婚姻家庭节点</div>
+  <p style="font-size:13px;color:#777;margin-bottom:20px">卡罗最强差异化阵地。婚前积蓄、婚内掌控感、孩子未来——每一个都是她独有的说话权。</p>
 
-  <div class="card life hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">婚前有一笔积蓄</div>
-        <div class="ts">工作几年攒下来的钱，结婚让她第一次想"这笔钱算谁的"</div>
-        <div class="tbadge" style="background:#FBEAF0;color:#72243E;border:1px solid #ED93B1">★ 卡罗最强差异化</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">已决定要把这笔钱独立安排，不并进共同账户。她不是不爱对方，是本能地想保留一个属于自己的财务支点。卡在：</div>
-        <div class="mq">婚前存进香港的钱，婚后还算我自己的吗？</div>
-        <div class="mq">万一离婚，香港那笔钱保得住吗？</div>
-        <div class="arr">
-          <div class="as">确定要结婚</div><div class="sep">→</div>
-          <div class="as k">搜「婚前积蓄怎么保护」</div><div class="sep">→</div>
-          <div class="as k">确认香港资产婚后归属</div><div class="sep">→</div>
-          <div class="as e">咨询具体方案</div>
+  <div class="tcard c-rose hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">婚前有一笔积蓄<span class="tcard-sub">工作几年攒下来的钱，结婚让她第一次想「这笔钱算谁的」</span></div></div>
+      <span class="tbadge" style="background:#FBEAF0;color:#72243E;border:1px solid #ED93B1">★ 最强差异化</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">已决定要把这笔钱独立安排，不并进共同账户。她不是不爱对方，是本能地想保留属于自己的财务支点。卡在：</div>
+          <div class="mq">婚前存进香港的钱，婚后还算我自己的吗？</div>
+          <div class="mq">万一离婚，香港那笔钱保得住吗？</div>
+          <div class="path-row">
+            <div class="pstep">确定要结婚</div><div class="psep">→</div>
+            <div class="pstep key">搜「婚前积蓄怎么保护」</div><div class="psep">→</div>
+            <div class="pstep key">确认香港资产归属</div><div class="psep">→</div>
+            <div class="pstep end">咨询方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#C47B8E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">婚前存进香港的那笔钱，婚后还算我自己的吗</div><div class="tw">精准命中她的搜索词。她不是在学法律，是在问一个具体问题。答完后自然引出操作方案。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">结婚前，我是怎么把那笔积蓄安排好的——真实经历</div><div class="tw">卡罗有意大利婚礼筹备的真实素材，其他账号复制不了。先说出她不好意思说的话，再给解决方案。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">婚内如何合法地保留一笔自己说了算的钱</div><div class="tw">说出她不好意思开口的那句话——她不是不爱对方，只是想有一个自己的财务支点。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">离婚时，香港账户里的钱对方能要求分割吗</div><div class="tw">直接消除最大法律疑虑。答完这个，她的下一步是"那我怎么开"。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">婚前存进香港的那笔钱，婚后还算我自己的吗</div><div class="twhy">精准命中搜索词，消除法律疑虑，答完后自然引出操作方案</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">结婚前，我是怎么把那笔积蓄安排好的——真实经历</div><div class="twhy">意大利婚礼真实素材，其他账号复制不了，先共情再给方案</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">婚内如何合法地保留一笔自己说了算的钱</div><div class="twhy">说出她不好意思开口的话，共鸣后给解决方案</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">离婚时，香港账户里的钱对方能要求分割吗</div><div class="twhy">直接消除最大法律疑虑，答完她的下一步是「那我怎么开」</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card life">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">结婚后收入开始合并</div>
-        <div class="ts">两个人的钱混在一起，她开始想"我自己那部分在哪里"</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要保留一笔属于自己的钱，独立配置。卡在：用什么方式既不伤感情，又在法律上真的独立？</div>
-        <div class="mq">两个人合并理财，我自己那部分怎么独立出来？</div>
-        <div class="mq">用香港账户存自己的钱，老公能查到吗？</div>
-        <div class="arr">
-          <div class="as">婚后财务混在一起</div><div class="sep">→</div>
-          <div class="as k">想保留一笔自己说了算的钱</div><div class="sep">→</div>
-          <div class="as k">搜「婚内独立账户怎么设」</div><div class="sep">→</div>
-          <div class="as e">咨询香港账户方案</div>
+  <div class="tcard c-rose">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">结婚后收入开始合并<span class="tcard-sub">两个人的钱混在一起，她开始想「我自己那部分在哪里」</span></div></div>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要保留一笔属于自己的钱独立配置。卡在：用什么方式既不伤感情，又在法律上真的独立？</div>
+          <div class="mq">两个人合并理财，我自己那部分怎么独立出来？</div>
+          <div class="mq">用香港账户存自己的钱，老公能查到吗？</div>
+          <div class="path-row">
+            <div class="pstep">婚后财务混在一起</div><div class="psep">→</div>
+            <div class="pstep key">想保留一笔自己的钱</div><div class="psep">→</div>
+            <div class="pstep end">咨询香港账户方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#C47B8E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">两个人的收入，怎么做到「合得清楚，分得明白」</div><div class="tw">她真正在问的是这个。不是理财技巧，是一个既合理又不伤感情的结构。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">婚后第一笔100万，夫妻怎么分开配置</div><div class="tw">有具体金额的场景，代入感强，看到的人会立刻想到自己的情况。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">两个人的收入，怎么做到「合得清楚，分得明白」</div><div class="twhy">她真正在问的就是这个，不是理财技巧，是一个既合理又不伤感情的结构</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">婚后第一笔100万，夫妻怎么分开配置</div><div class="twhy">有具体金额的场景，代入感强，看到的人会立刻想到自己的情况</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card life">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">朋友离婚 / 身边人离婚</div>
-        <div class="ts">朋友离婚资产被分走，她开始想"如果是我怎么办"</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要给自己资产加一层保护。卡在：香港保单的隔离是真实有效的，还是"听起来安全"？对方能不能强制要求分割？</div>
-        <div class="mq">离婚时，法院能强制执行香港的资产吗？</div>
-        <div class="mq">受益人设好了，这笔钱真的保得住吗？</div>
-        <div class="arr">
-          <div class="as">朋友离婚资产被分</div><div class="sep">→</div>
-          <div class="as k">搜「香港资产离婚能保住吗」</div><div class="sep">→</div>
-          <div class="as k">确认隔离是否真实有效</div><div class="sep">→</div>
-          <div class="as e">咨询方案</div>
+  <div class="tcard c-rose">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">朋友离婚 / 身边人离婚<span class="tcard-sub">朋友离婚资产被分走，她开始想「如果是我怎么办」</span></div></div>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要给自己资产加一层保护。卡在：香港保单的隔离是真实有效的，还是「听起来安全」？</div>
+          <div class="mq">离婚时，法院能强制执行香港的资产吗？</div>
+          <div class="mq">受益人设好了，这笔钱真的保得住吗？</div>
+          <div class="path-row">
+            <div class="pstep">朋友离婚资产被分</div><div class="psep">→</div>
+            <div class="pstep key">搜「香港资产离婚能保住吗」</div><div class="psep">→</div>
+            <div class="pstep key">确认隔离是否真实有效</div><div class="psep">→</div>
+            <div class="pstep end">咨询方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#C47B8E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">离婚时，香港账户里的钱对方能要求分割吗——直接给你答案</div><div class="tw">她不是在研究法律，是在问一个需要明确答案的问题。给出结论，下一步自然是"那我怎么开"。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">朋友离婚了，我才意识到受益人这件事要提前做</div><div class="tw">叙事型钩子，触发「见过别人离婚」的人代入。情绪路径自然，不说教。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">香港保单的资产隔离，具体能保护到什么程度</div><div class="tw">给边界感。她不需要模糊的"安全"，她需要知道具体能保护什么、不能保护什么。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">离婚时，香港账户里的钱对方能要求分割吗——直接给你答案</div><div class="twhy">给出结论，下一步自然是「那我怎么开」</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">朋友离婚了，我才意识到受益人这件事要提前做</div><div class="twhy">叙事型钩子，触发见过别人离婚的人代入，情绪路径自然</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">香港保单的资产隔离，具体能保护到什么程度</div><div class="twhy">给边界感，让她对工具有明确预期而非模糊安全感</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card life hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">孩子出生 / 到了关键年龄</div>
-        <div class="ts">出生 / 5岁 / 初中（留学倒计时）/ 高中（费用落地）</div>
-        <div class="tbadge" style="background:#FBEAF0;color:#72243E;border:1px solid #ED93B1">★ 高转化</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要给孩子存一笔钱，锁住、不被挪用。卡在：现在来不来得及？万一自己出事这笔钱还在吗？用什么工具才能真正锁住？</div>
-        <div class="mq">孩子5岁了，现在开始存教育金来得及吗？</div>
-        <div class="mq">万一我出事，孩子的那笔钱谁来保证？</div>
-        <div class="arr">
-          <div class="as">孩子到关键年龄节点</div><div class="sep">→</div>
-          <div class="as k">搜「给孩子存教育金」「孩子存钱哪里最稳」</div><div class="sep">→</div>
-          <div class="as k">确认工具和时间可行性</div><div class="sep">→</div>
-          <div class="as e">咨询方案</div>
+  <div class="tcard c-rose hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">孩子出生 / 到了关键年龄<span class="tcard-sub">出生 / 5岁 / 初中（留学倒计时）/ 高中（费用落地）</span></div></div>
+      <span class="tbadge" style="background:#FBEAF0;color:#72243E;border:1px solid #ED93B1">★ 高转化</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要给孩子存一笔锁住的钱。卡在：现在来不来得及？万一自己出事这笔钱还在吗？</div>
+          <div class="mq">孩子5岁了，现在开始存教育金来得及吗？</div>
+          <div class="mq">万一我出事，孩子的那笔钱谁来保证？</div>
+          <div class="path-row">
+            <div class="pstep">孩子到关键年龄节点</div><div class="psep">→</div>
+            <div class="pstep key">搜「给孩子存教育金」</div><div class="psep">→</div>
+            <div class="pstep key">确认工具和时间可行性</div><div class="psep">→</div>
+            <div class="pstep end">咨询方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#C47B8E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">孩子现在X岁，给他存一笔18岁才能动的钱，来得及吗</div><div class="tw">直接回答"来不来得及"。答案给结论：来得及，越早差越多——用数字击穿犹豫。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">万一我出事，孩子的教育金怎么办——这个问题我提前想清楚了</div><div class="tw">触发保单持有人与受益人分离设计的核心场景。情绪强，行动力强，咨询转化率高。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">孩子要出国留学，到时候需要多少钱——很多家长算少了</div><div class="tw">用具体数字制造紧迫感。她不是不知道要做，是不知道要做多少——给她一个具体数字参照。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">同样是每月存5000，5岁和10岁开始，孩子18岁时差多少</div><div class="tw">让复利变得可见，是推动"现在就开始"最有效的内容形式。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">孩子现在X岁，给他存一笔18岁才能动的钱，来得及吗</div><div class="twhy">直接回答「来不来得及」，答案给结论：来得及，越早差越多——用数字击穿犹豫</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">万一我出事，孩子的教育金怎么办——这个问题我提前想清楚了</div><div class="twhy">触发保单持有人与受益人分离设计的核心场景，咨询转化率高</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">孩子要出国留学，到时候需要多少钱——很多家长算少了</div><div class="twhy">用具体数字制造紧迫感，她不是不知道要做，是不知道要做多少</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">同样是每月存5000，5岁和10岁开始，孩子18岁时差多少</div><div class="twhy">让复利变得可见，推动「现在就开始」最有效的内容形式</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card life">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">想给家人一个保障</div>
-        <div class="ts">身边人出事、自己生病，开始想"万一我不在了"</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要提前安排好，让家人以后不用经历繁琐流程。卡在：受益人怎么设才真的有效？钱能直接到那个人手里吗？</div>
-        <div class="mq">我不在了，钱能直接到我想给的那个人手里吗？</div>
-        <div class="mq">不想走遗产继承那些复杂流程，保单能绕开吗？</div>
-        <div class="arr">
-          <div class="as">身边人出事 / 自己生病</div><div class="sep">→</div>
-          <div class="as k">搜「受益人怎么设」「身故后钱怎么给家人」</div><div class="sep">→</div>
-          <div class="as k">确认受益人设置是否真实有效</div><div class="sep">→</div>
-          <div class="as e">咨询方案</div>
+  <div class="tcard c-rose">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">想给家人一个保障<span class="tcard-sub">身边人出事、自己生病，开始想「万一我不在了」</span></div></div>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要提前安排好，让家人不用经历繁琐流程。卡在：受益人怎么设才真的有效？钱能直接到那个人手里吗？</div>
+          <div class="mq">我不在了，钱能直接到我想给的那个人手里吗？</div>
+          <div class="mq">不想走遗产继承那些复杂流程，保单能绕开吗？</div>
+          <div class="path-row">
+            <div class="pstep">身边人出事</div><div class="psep">→</div>
+            <div class="pstep key">搜「受益人怎么设」</div><div class="psep">→</div>
+            <div class="pstep key">确认设置是否有效</div><div class="psep">→</div>
+            <div class="pstep end">咨询方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#C47B8E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">如果我突然不在了，钱能直接到我想给的那个人手里吗</div><div class="tw">她问的不是产品，是"这件事能不能被解决"。给出明确答案后，她的下一步是咨询。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">受益人怎么设，才能真正保护到你想保护的人</div><div class="tw">高咨询触发。有具体情况的人（非婚伴侣、想给孩子单独设）看到会立刻私信。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">如果我突然不在了，钱能直接到我想给的那个人手里吗</div><div class="twhy">她问的不是产品，是「这件事能不能被解决」，给出答案后她的下一步是咨询</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">受益人怎么设，才能真正保护到你想保护的人</div><div class="twhy">高咨询触发，有具体情况的人（非婚伴侣、单独给孩子设）会立刻私信</div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -269,99 +552,104 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
 </div>
 
 <!-- 资产配置节点 -->
-<div class="grp">
-  <div class="grp-t">资产配置节点 — 钱开始多了，第一次认真想「放哪里」</div>
+<div class="section" id="s4b">
+  <div class="sec-num">选题方向 B</div>
+  <div class="sec-title" style="color:#7A9E6E">资产配置节点</div>
+  <p style="font-size:13px;color:#777;margin-bottom:20px">钱开始多了，第一次认真想「放哪里」。包含三个高优先级触发器。</p>
 
-  <div class="card asset hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">升职 / 跳槽 / 年终奖后</div>
-        <div class="ts">第一次有了可以认真配置的资金，不知道从哪里开始</div>
-        <div class="tbadge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 流量大</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要配置，放余额宝不对。卡在：香港是不是第一步？门槛够不够？从哪里开始不踩坑？</div>
-        <div class="mq">我现在这点钱，适合放香港吗？</div>
-        <div class="mq">第一次去香港，该做什么、流程是什么？</div>
-        <div class="arr">
-          <div class="as">有了第一笔可配置资金</div><div class="sep">→</div>
-          <div class="as k">搜「多少钱可以开始配置香港」</div><div class="sep">→</div>
-          <div class="as k">确认门槛 + 第一步</div><div class="sep">→</div>
-          <div class="as e">找人带着做第一次</div>
+  <div class="tcard c-green hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">升职 / 跳槽 / 年终奖后<span class="tcard-sub">第一次有了可以认真配置的资金，不知道从哪里开始</span></div></div>
+      <span class="tbadge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 流量大</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要配置，放余额宝不对。卡在：香港是不是第一步？门槛够不够？从哪里开始不踩坑？</div>
+          <div class="mq">我现在这点钱，适合放香港吗？</div>
+          <div class="mq">第一次去香港，该做什么、流程是什么？</div>
+          <div class="path-row">
+            <div class="pstep">有了第一笔可配置资金</div><div class="psep">→</div>
+            <div class="pstep key">搜「多少钱可以配置香港」</div><div class="psep">→</div>
+            <div class="pstep key">确认门槛+第一步</div><div class="psep">→</div>
+            <div class="pstep end">找人带着做第一次</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#7A9E6E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">多少钱才适合开始配置香港资产——我的参考标准</div><div class="tw">直接消除"我的规模够吗"的门槛焦虑。给出具体数字，不是"越多越好"。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">第一次把钱放香港，从哪一步开始——给新手的路径</div><div class="tw">她需要的是清晰的行动路径，不是产品介绍。路径给清楚了，她的下一步是"找你帮我走"。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">有了港卡之后，下一步该怎么走</div><div class="tw">接住开了港卡但不知道下一步的人，这是高意向的断层地带。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">同样是存钱，香港和内地10年后差多少</div><div class="tw">用数字让她"看见"现在不动的代价，而不是讲道理。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">多少钱才适合开始配置香港资产——我的参考标准</div><div class="twhy">直接消除门槛焦虑，给出具体数字，不是「越多越好」</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">第一次把钱放香港，从哪一步开始——给新手的路径</div><div class="twhy">她需要行动路径不是产品介绍，路径给清楚后她的下一步是「找你帮我走」</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">有了港卡之后，下一步该怎么走</div><div class="twhy">接住开了港卡不知下一步的人，高意向断层地带</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">同样是存钱，香港和内地10年后差多少</div><div class="twhy">用数字让她看见不动的代价，而不是讲道理</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card asset hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">突然有一笔大钱</div>
-        <div class="ts">年终奖超预期、股票解锁、房子卖了、公司套现</div>
-        <div class="tbadge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 有时间节点</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">钱趴在活期里让人不安，有明确行动时间压力。方向已定：要配置。卡在：多少放香港、多少留内地、香港放什么工具？</div>
-        <div class="mq">这笔钱，多少比例放香港合适？</div>
-        <div class="mq">放香港的那部分，存定期还是买储蓄险？</div>
-        <div class="arr">
-          <div class="as">大额资金到账</div><div class="sep">→</div>
-          <div class="as k">搜「300万放哪里」「香港配置多少合适」</div><div class="sep">→</div>
-          <div class="as k">需要有人帮她做分配方案</div><div class="sep">→</div>
-          <div class="as e">预约方案咨询</div>
+  <div class="tcard c-green hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">突然有一笔大钱<span class="tcard-sub">年终奖超预期、股票解锁、房子卖了、公司套现</span></div></div>
+      <span class="tbadge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 有时间节点</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">钱趴在活期里让人不安，有明确行动压力。方向已定：要配置。卡在：多少放香港、多少留内地、香港放什么工具？</div>
+          <div class="mq">这笔钱，多少比例放香港合适？</div>
+          <div class="mq">放香港的那部分，存定期还是买储蓄险？</div>
+          <div class="path-row">
+            <div class="pstep">大额资金到账</div><div class="psep">→</div>
+            <div class="pstep key">搜「300万放哪里」</div><div class="psep">→</div>
+            <div class="pstep key">需要有人帮她做分配方案</div><div class="psep">→</div>
+            <div class="pstep end">预约方案咨询</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#7A9E6E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">突然有了一大笔钱，我是怎么分配的——内地和香港各放多少</div><div class="tw">她最需要的是"有人帮我想清楚"。给出具体分配比例，不是原则，是方案。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">300万放香港，定期存款和储蓄险怎么选</div><div class="tw">工具选择型，接住已经决定放香港、还在选工具的人。给结论，不给分析。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">为什么我把长期的钱放香港，短期的钱放内地</div><div class="tw">建立"时间维度分配"框架，帮她理解配置逻辑，而不是被动接受建议。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">突然有了一大笔钱，我是怎么分配的——内地和香港各放多少</div><div class="twhy">给出具体分配比例，不是原则，是方案，她最需要「有人帮我想清楚」</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">300万放香港，定期存款和储蓄险怎么选</div><div class="twhy">接住已决定放香港、还在选工具的人，给结论不给分析</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">为什么我把长期的钱放香港，短期的钱放内地</div><div class="twhy">建立时间维度分配框架，帮她理解配置逻辑</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card asset hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">人民币升值窗口</div>
-        <div class="ts">2026年人民币触及6.81，换美元成本最低，很多人开始行动</div>
-        <div class="tbadge" style="background:#FFF3CD;color:#856404;border:1px solid #FFE68A">★ 当前时机</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要配置一部分美元。卡在三类不同处境：①第一次想做被升值触发 ②港卡开了但钱趴着没动 ③已在买美元但放的地方不对。</div>
-        <div class="mq">人民币还会继续升吗？现在换会不会换早了？</div>
-        <div class="mq">有港卡了，钱汇进去之后该怎么放？</div>
-        <div class="arr">
-          <div class="as">看到升值新闻</div><div class="sep">→</div>
-          <div class="as k">搜「现在换美元合适吗」</div><div class="sep">→</div>
-          <div class="as k">需要有人给判断+告知第一步</div><div class="sep">→</div>
-          <div class="as e">咨询配置方案</div>
+  <div class="tcard c-green hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">人民币升值窗口<span class="tcard-sub">2026年人民币触及6.81新高，换美元成本最低，很多人开始行动</span></div></div>
+      <span class="tbadge" style="background:#FFF3CD;color:#856404;border:1px solid #FFE68A">★ 当前时机</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要配置一部分美元。分三类人：①第一次想做被升值触发 ②港卡开了但钱趴着没动 ③已在买美元但放错地方。</div>
+          <div class="mq">人民币还会继续升吗？现在换会不会换早了？</div>
+          <div class="mq">有港卡了，钱汇进去之后该怎么放？</div>
+          <div class="path-row">
+            <div class="pstep">看到升值新闻</div><div class="psep">→</div>
+            <div class="pstep key">搜「现在换美元合适吗」</div><div class="psep">→</div>
+            <div class="pstep key">需要有人给判断+告知第一步</div><div class="psep">→</div>
+            <div class="pstep end">咨询配置方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#7A9E6E">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">人民币升值到6.8，现在换美元合适吗——我的判断</div><div class="tw">直接给结论，消除"会不会换早了"的犹豫。时效性强，当前最应该出的选题。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">有了港卡，钱汇进去之后第一步该做什么</div><div class="tw">接住②类人群，高意向空白地带。她已经行动了，只需要被推一把。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">美元存内地银行 vs 存香港，真正的差距在哪</div><div class="tw">接住③类人群，帮已经在行动的人做迁移决策，转化路径很短。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">为什么我选择在人民币升值的时候配置美元（而不是等它贬）</div><div class="tw">反常识钩子，筛选有配置意识的精准用户。核心逻辑是结构对冲，不是汇率投机。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">人民币升值到6.8，现在换美元合适吗——我的判断</div><div class="twhy">直接给结论，消除「会不会换早了」的犹豫，时效性强，当前最应该出的选题</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">有了港卡，钱汇进去之后第一步该做什么</div><div class="twhy">接住②类人群，高意向空白地带，她已经行动了只需推一把</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">美元存内地银行 vs 存香港，真正的差距在哪</div><div class="twhy">接住③类人群，帮已经在行动的人做迁移决策，转化路径短</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">为什么我选择在人民币升值的时候配置美元（而不是等它贬）</div><div class="twhy">反常识钩子，筛选有配置意识的精准用户，核心逻辑是结构对冲</div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -369,80 +657,162 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
 </div>
 
 <!-- 身份认知节点 -->
-<div class="grp">
-  <div class="grp-t">身份认知节点 — 她在找一个「懂她处境」的人</div>
+<div class="section" id="s4c">
+  <div class="sec-num">选题方向 C</div>
+  <div class="sec-title" style="color:#7B8EC8">身份认知节点</div>
+  <p style="font-size:13px;color:#777;margin-bottom:20px">她在找一个「懂她处境」的人。卡罗的人设和经历在这里最有说话权。</p>
 
-  <div class="card id hl">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">身边人"做了"并分享</div>
-        <div class="ts">闺蜜说开了港险 / 同事说开了港卡 / 群里有人在晒</div>
-        <div class="tbadge" style="background:#DDE3F5;color:#2D4A9A;border:1px solid #7B8EC8">★ 流量最大</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：我也要做。卡在：我的情况适不适合？门槛够不够？选哪家？第一步怎么迈？</div>
-        <div class="mq">她做的那个，我也适合吗？</div>
-        <div class="mq">第一次去香港，流程是什么？</div>
-        <div class="arr">
-          <div class="as">听说身边人在做</div><div class="sep">→</div>
-          <div class="as k">搜「内地人怎么开香港账户」</div><div class="sep">→</div>
-          <div class="as k">确认门槛和第一步</div><div class="sep">→</div>
-          <div class="as e">找人带着做第一次</div>
+  <div class="tcard c-blue hl">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">身边人「做了」并分享<span class="tcard-sub">闺蜜说开了港险 / 同事说开了港卡 / 群里有人在晒</span></div></div>
+      <span class="tbadge" style="background:#DDE3F5;color:#2D4A9A;border:1px solid #7B8EC8">★ 流量最大</span>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：我也要做。卡在：我的情况适不适合？门槛够不够？选哪家？第一步怎么迈？</div>
+          <div class="mq">她做的那个，我也适合吗？</div>
+          <div class="mq">第一次去香港，流程是什么？</div>
+          <div class="path-row">
+            <div class="pstep">听说身边人在做</div><div class="psep">→</div>
+            <div class="pstep key">搜「内地人怎么开香港账户」</div><div class="psep">→</div>
+            <div class="pstep key">确认门槛和第一步</div><div class="psep">→</div>
+            <div class="pstep end">找人带着做第一次</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#7B8EC8">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">内地人在香港开户，现在还方便吗——2026年最新情况</div><div class="tw">时效性钩子，搜索量大。她需要的是"现在还能做"的确认，而不是开户攻略。</div></div></div>
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">闺蜜说在香港存了一笔钱，我去了解了一下——真实感受</div><div class="tw">女性视角，以闺蜜口吻切入，卡罗的人设天然适合这个叙事方式。她不是在卖，是在分享。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">越来越多女生开始把钱放香港，她们在防什么</div><div class="tw">女性视角认知升级内容，筛选有主动配置意识的用户。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">内地人在香港开户，现在还方便吗——2026年最新情况</div><div class="twhy">时效性钩子，搜索量大，她需要「现在还能做」的确认</div></div></div>
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">闺蜜说在香港存了一笔钱，我去了解了一下——真实感受</div><div class="twhy">女性视角，卡罗人设天然适合这个叙事方式，不是在卖，是在分享</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">越来越多女生开始把钱放香港，她们在防什么</div><div class="twhy">女性视角认知升级，筛选有主动配置意识的用户</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card id">
-    <div class="card-inner">
-      <div class="ct">
-        <div class="ac"></div>
-        <div class="tn">职业转型 / 开始自由职业</div>
-        <div class="ts">离开大厂、创业、做自媒体——收入不稳定，没有单位兜底</div>
-      </div>
-      <div class="cm">
-        <div class="cl">她脑子里转的具体问题</div>
-        <div class="ms">方向已定：要给自己搭一套没有单位也能稳稳的保障体系。卡在：从哪里开始？香港方案能不能真的填上社保的缺口？</div>
-        <div class="mq">离职后没有社保，养老只能靠自己，怎么办？</div>
-        <div class="mq">收入不稳定，存香港合适吗？</div>
-        <div class="arr">
-          <div class="as">离开单位，意识到保障空白</div><div class="sep">→</div>
-          <div class="as k">搜「没有社保怎么给自己养老」</div><div class="sep">→</div>
-          <div class="as k">确认香港方案能否替代</div><div class="sep">→</div>
-          <div class="as e">咨询方案</div>
+  <div class="tcard c-blue">
+    <div class="tcard-head">
+      <div class="tcard-accent"></div>
+      <div><div class="tcard-title">职业转型 / 开始自由职业<span class="tcard-sub">离开大厂、创业——收入不稳定，没有单位兜底</span></div></div>
+    </div>
+    <div class="tcard-body">
+      <div class="grid2">
+        <div>
+          <div class="stuck-label">她脑子里转的具体问题</div>
+          <div class="stuck-text">方向已定：要给自己搭没有单位也能稳的保障体系。卡在：从哪里开始？香港方案能不能真的填上社保缺口？</div>
+          <div class="mq">离职后没有社保，养老只能靠自己，怎么办？</div>
+          <div class="mq">收入不稳定，存香港合适吗？</div>
+          <div class="path-row">
+            <div class="pstep">离开单位，意识到保障空白</div><div class="psep">→</div>
+            <div class="pstep key">搜「没有社保怎么给自己养老」</div><div class="psep">→</div>
+            <div class="pstep end">咨询香港方案</div>
+          </div>
         </div>
-      </div>
-      <div class="tp">
-        <div class="cl" style="color:#7B8EC8">选题方向</div>
-        <div class="tl">
-          <div class="ti"><div class="tb tb-a">A级</div><div><div class="tt">离开大厂之后，我是怎么给自己重新搭保障体系的</div><div class="tw">卡罗有从香港工作到深圳定居的真实经历，这个话题她有说话权。叙事型，代入感强。</div></div></div>
-          <div class="ti"><div class="tb tb-b">B级</div><div><div class="tt">没有单位兜底，怎么给自己存一笔老了能用的钱</div><div class="tw">直接回答核心疑虑，消除"这真的能替代社保吗"的顾虑后推动行动。</div></div></div>
+        <div>
+          <div class="topics-label">选题方向</div>
+          <div class="tlist">
+            <div class="titem"><span class="grade grade-a">A级</span><div class="ttext"><div class="ttitle">离开大厂之后，我是怎么给自己重新搭保障体系的</div><div class="twhy">卡罗有香港工作到深圳定居的真实经历，有说话权，叙事型代入感强</div></div></div>
+            <div class="titem"><span class="grade grade-b">B级</span><div class="ttext"><div class="ttitle">没有单位兜底，怎么给自己存一笔老了能用的钱</div><div class="twhy">直接回答核心疑虑，消除「这真的能替代社保吗」的顾虑后推动行动</div></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="note">
-  <strong>选题自检三问：</strong>
-  ①她搜索框里会打什么字（不是话题，是具体问题）；
-  ②她卡住的是疑虑还是信息缺失（疑虑要消除，信息要填补，写法完全不同）；
-  ③这条内容看完之后，她的下一个动作是什么（答不上来，说明这条在做认知教育，不是获客）。<br><br>
-  <strong>卡罗的独占地带：</strong>婚姻节点——意大利婚礼真实经历、婚前婚后资产安排——其他账号复制不了，必须守住。<br>
-  <strong>与熙纶的边界：</strong>不婚/丁克/高收入单身的养老焦虑 → 熙纶；婚姻/家庭/孩子节点的财务决策 → 卡罗。
+<div class="sec-divider"></div>
+
+<!-- ===== 五、人格内容 ===== -->
+<div class="section" id="s5">
+  <div class="sec-num">Part 05</div>
+  <div class="sec-title">人格内容与差异化素材</div>
+  <p style="font-size:13px;color:#777;margin-bottom:20px">人格内容不强求，0-1条/周。目的是建立差异化记忆点，让用户记住「卡罗是谁」，而不是又一个讲港险的账号。</p>
+
+  <div class="sec-title-sm">5.1 卡罗独有素材</div>
+  <div class="hbox green">
+    <ul class="blist" style="padding-left:0">
+      <li>意大利婚礼筹备经历——婚前如何安排那笔钱（其他账号无法复制）</li>
+      <li>香港读研 → 香港工作 → 深圳定居的真实经历——两地生活的真实视角</li>
+      <li>保险从业10年的亲历感受——不是讲产品，是讲「我自己是怎么配置的」</li>
+    </ul>
+  </div>
+
+  <div class="sec-title-sm" style="margin-top:20px">5.2 人格选题方向</div>
+  <div class="tlist">
+    <div class="titem"><span class="grade grade-p">人格</span><div class="ttext"><div class="ttitle">河北小城→香港硕士→深圳定居，我在香港学到最重要的一件事</div><div class="twhy">建立人格背景，让用户理解卡罗为什么有资格讲这些</div></div></div>
+    <div class="titem"><span class="grade grade-p">人格</span><div class="ttext"><div class="ttitle">在香港工作10年，我给自己配置了什么</div><div class="twhy">个人经历+配置方案，人格内容里转化效率最高的类型</div></div></div>
+    <div class="titem"><span class="grade grade-p">人格</span><div class="ttext"><div class="ttitle">意大利婚礼筹备过程中，我是怎么规划这笔钱的</div><div class="twhy">婚姻节点的真实叙事，人格+决策双属性，天然高转化</div></div></div>
+  </div>
 </div>
-<div class="ver">卡罗账号选题决策地图 · V1.0 · 2026.06</div>
+
+<div class="sec-divider"></div>
+
+<!-- ===== 六、执行规则 ===== -->
+<div class="section" id="s6">
+  <div class="sec-num">Part 06</div>
+  <div class="sec-title">执行规则</div>
+
+  <div class="sec-title-sm">6.1 每周排期结构</div>
+  <table class="tbl">
+    <tr><th>类型</th><th>每周条数</th><th>说明</th></tr>
+    <tr><td>A级选题</td><td>3-4条</td><td>婚姻+孩子+资产配置各取一个方向交叉出</td></tr>
+    <tr><td>B级选题</td><td>1-2条</td><td>稳定补充，不强求</td></tr>
+    <tr><td>新方向测试</td><td>1条</td><td>每周测一个，看播放和评论区咨询信号</td></tr>
+    <tr><td>人格类</td><td>0-1条</td><td>有素材时自然融入，不强求</td></tr>
+  </table>
+
+  <div class="sec-title-sm">6.2 新选题测试升级条件</div>
+  <ul class="blist">
+    <li>发布1条测试选题：播放 > 1万 且 评论区出现咨询意向 → 升为B级，连续出3条验证</li>
+    <li>连续3条B级数据稳定 → 升为A级，纳入固定选题池</li>
+    <li>连续2条播放 &lt; 3000 且无咨询评论 → 退出池，不再出</li>
+  </ul>
+
+  <div class="sec-title-sm">6.3 选题自检三问</div>
+  <div class="hbox gray">
+    <p>① 她搜索框里会打什么字？（不是话题，是具体问题，精确到搜索词）</p>
+    <p>② 她卡住的是疑虑还是信息缺失？（疑虑要消除，信息缺失要填补，写法完全不同）</p>
+    <p>③ 这条内容看完之后，她的下一个动作是什么？<br>答不上来 → 这条是认知教育，不是获客内容，重新设计。</p>
+  </div>
+
+  <div class="sec-title-sm">6.4 卡罗的独占阵地</div>
+  <div class="hbox amber">
+    <div class="hbox-title">婚姻节点是卡罗唯一无法被其他账号替代的位置</div>
+    <p>意大利婚礼经历、婚前婚后资产安排的真实视角——这是她独有的素材。</p>
+    <p>这个方向必须守住，且要持续深耕，<strong>不能只出1-2条就停</strong>。</p>
+  </div>
+</div>
+
+<div class="footer">卡罗账号内容运营报告 · V2.0 · 2026.06</div>
 
 </div>
+</main>
+
+<script>
+const items = document.querySelectorAll('.nav-item');
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const id = e.target.id;
+      items.forEach(i => {
+        i.classList.toggle('active', i.getAttribute('href') === '#'+id);
+      });
+    }
+  });
+}, { threshold: 0.15 });
+sections.forEach(s => observer.observe(s));
+items.forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    const id = item.getAttribute('href').slice(1);
+    document.getElementById(id).scrollIntoView({ behavior:'smooth' });
+  });
+});
+</script>
 </body>
 </html>
