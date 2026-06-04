@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内地中产资金决策地图 V2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F5F4F0;color:#1A1A1A;font-size:14px;line-height:1.6}
+.page{max-width:1080px;margin:0 auto;padding:48px 28px 80px}
+
+/* Header */
+.hd{margin-bottom:36px}
+.hd h1{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
+.hd p{font-size:13px;color:#777;max-width:620px;line-height:1.7}
+.hd p strong{color:#444;font-weight:500}
+
+/* Core principle bar */
+.principle{display:flex;gap:24px;margin-bottom:36px;padding:14px 18px;background:#fff;border-radius:10px;border:1px solid #E6E4DE;flex-wrap:wrap}
+.principle-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#666;flex:1;min-width:160px}
+.principle-icon{width:18px;height:18px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff}
+
+/* Legend */
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:#777}
+.legend-stripe{width:14px;height:4px;border-radius:2px;flex-shrink:0}
+.legend-sep{flex:1}
+.legend-badge-wrap{display:flex;gap:10px}
+.lbadge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+
+/* Group */
+.group{margin-bottom:32px}
+.group-title{font-size:11px;font-weight:600;letter-spacing:.08em;color:#999;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.group-title::after{content:'';flex:1;height:1px;background:#E6E4DE}
+
+/* Trigger card */
+.tcard{background:#fff;border:1px solid #E6E4DE;border-radius:10px;margin-bottom:8px;overflow:hidden;transition:box-shadow .15s}
+.tcard:hover{box-shadow:0 2px 14px rgba(0,0,0,.07)}
+.tcard-inner{display:grid;grid-template-columns:185px 1fr 1fr;min-height:100px}
+
+/* Accent bar */
+.tcard-trigger{position:relative;padding:14px 14px 14px 18px;border-right:1px solid #F0EDE6}
+.accent{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
+.trigger-name{font-size:13px;font-weight:600;color:#111;margin-bottom:4px;line-height:1.4}
+.trigger-sub{font-size:11px;color:#999;line-height:1.45}
+.trigger-badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:20px;margin-top:6px}
+
+/* Moment column */
+.tcard-moment{padding:14px 16px;border-right:1px solid #F0EDE6}
+.col-label{font-size:10px;font-weight:600;letter-spacing:.06em;color:#BBB;margin-bottom:8px}
+.moment-stuck{font-size:12px;color:#555;line-height:1.55;margin-bottom:8px}
+.moment-q{font-size:11px;color:#888;font-style:italic;line-height:1.5;padding:5px 9px;background:#F9F8F5;border-left:2px solid #DDD;border-radius:0 4px 4px 0;margin-bottom:5px}
+.moment-q:last-child{margin-bottom:0}
+
+/* Topics column */
+.tcard-topics{padding:14px 16px}
+.topics-list{display:flex;flex-direction:column;gap:5px}
+.titem{display:flex;align-items:flex-start;gap:7px;padding:6px 9px;border-radius:6px;border:1px solid #F0EDE6}
+.tbadge{flex-shrink:0;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-top:1px;white-space:nowrap}
+.tbadge-a{background:#EEEDFE;color:#3C3489}
+.tbadge-b{background:#E1F5EE;color:#085041}
+.tbadge-c{background:#F1EFE8;color:#5F5E5A}
+.ttitle{font-size:11px;font-weight:500;color:#222;line-height:1.4;margin-bottom:1px}
+.twhy{font-size:10px;color:#999;line-height:1.4}
+
+/* Group accent colors */
+.push .accent{background:#C0756A}
+.push .titem{border-color:#FAE8E5}
+.push .titem:hover{background:#FDF5F4}
+
+.life .accent{background:#7A9E6E}
+.life .titem{border-color:#E2EFE0}
+.life .titem:hover{background:#F4FAF3}
+
+.pull .accent{background:#7B8EC8}
+.pull .titem{border-color:#DDE3F5}
+.pull .titem:hover{background:#F3F5FC}
+
+/* Highlight card */
+.tcard.hl{border-color:#D4C8A8}
+.tcard.hl .tcard-trigger{background:#FDFBF5}
+.tcard.hl .titem{border-color:#EDE3C4}
+
+/* Action arrow */
+.action-arrow{display:flex;align-items:center;gap:6px;font-size:11px;color:#AAA;padding:6px 0 2px;flex-wrap:wrap}
+.astep{padding:3px 9px;border-radius:20px;background:#F5F4F0;border:1px solid #E6E4DE;color:#666;white-space:nowrap;font-size:11px}
+.astep.a-key{background:#EEEDFE;border-color:#C8C3F0;color:#3C3489;font-weight:500}
+.astep.a-end{background:#E1F5EE;border-color:#99D9C5;color:#085041;font-weight:500}
+.asep{color:#CCC}
+
+/* Footer note */
+.fnote{margin-top:36px;padding:16px 20px;background:#fff;border:1px solid #E6E4DE;border-radius:10px;font-size:12px;color:#888;line-height:1.8}
+.fnote strong{color:#555;font-weight:500}
+.ver{margin-top:16px;font-size:11px;color:#CCC;text-align:right}
+
+@media(max-width:800px){
+  .tcard-inner{grid-template-columns:1fr}
+  .tcard-trigger,.tcard-moment{border-right:none;border-bottom:1px solid #F0EDE6}
+  .tcard-trigger{padding-left:22px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hd">
+  <h1>内地中产资金决策地图</h1>
+  <p>每一行对应一个触发器。内容的目标不是教育，不是共情，而是<strong>接住一个已经决定了方向、卡在具体疑虑上的人</strong>，消除他的疑虑，推动他迈出第一步。</p>
+</div>
+
+<div class="principle">
+  <div class="principle-item">
+    <div class="principle-icon" style="background:#534AB7">1</div>
+    <div><strong style="color:#333;display:block;margin-bottom:1px">他已经决定了方向</strong>不需要被说服"为什么要做"</div>
+  </div>
+  <div class="principle-item">
+    <div class="principle-icon" style="background:#0F6E56">2</div>
+    <div><strong style="color:#333;display:block;margin-bottom:1px">他卡在具体疑虑上</strong>内容要精准消除这个疑虑</div>
+  </div>
+  <div class="principle-item">
+    <div class="principle-icon" style="background:#993C1D">3</div>
+    <div><strong style="color:#333;display:block;margin-bottom:1px">他在找可信任的人</strong>内容让他感到"这个人懂我的处境"</div>
+  </div>
+  <div class="principle-item">
+    <div class="principle-icon" style="background:#854F0B">4</div>
+    <div><strong style="color:#333;display:block;margin-bottom:1px">给他第一步</strong>不是产品介绍，是帮他走完这一步</div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-stripe" style="background:#C0756A"></div>推力类</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:#7A9E6E"></div>人生节点类</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:#7B8EC8"></div>拉力类</div>
+  <div class="legend-sep"></div>
+  <div class="legend-badge-wrap">
+    <span class="lbadge tbadge-a">A级优先</span>
+    <span class="lbadge tbadge-b">B级稳定</span>
+    <span class="lbadge tbadge-c">C级补充</span>
+  </div>
+</div>
+
+<!-- ==================== PUSH GROUP ==================== -->
+<div class="group">
+  <div class="group-title">推力类 — 现有的地方放不住了</div>
+
+  <!-- 触发器1: 账户被冻结 -->
+  <div class="tcard push hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">账户被冻结 / 见过冻结</div>
+        <div class="trigger-sub">自己被冻结过，或身边人被冻结</div>
+        <div class="trigger-badge" style="background:#FAECE7;color:#712B13;border:1px solid #F0997B">★ 行动意愿最强</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：需要一个内地体系之外的地方放钱。卡在两个具体疑虑：</div>
+        <div class="moment-q">香港账户真的不会被内地连带冻结吗？</div>
+        <div class="moment-q">我的情况（有过冻结记录 / 做生意 / 大额转账）还能开香港账户吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">账户解冻 / 听说朋友被冻</div><div class="asep">→</div>
+            <div class="astep a-key">搜「香港账户会被内地冻结吗」</div><div class="asep">→</div>
+            <div class="astep a-key">确认独立性 + 确认自己能开</div><div class="asep">→</div>
+            <div class="astep a-end">立刻咨询开户</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">内地账户被冻结，香港账户里的钱会受影响吗——直接给你答案</div><div class="twhy">命中核心搜索词，消除最大疑虑。答完后自然引出开户。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">内地账户有过冻结记录，还能开香港账户吗</div><div class="twhy">能搜到这句话的人行动意愿极强，正在主动找出路。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">哪些人的内地账户最容易被冻结——做生意的你在不在里面</div><div class="twhy">对号入座型，让「见过别人被冻」的人感受到风险就在身边。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">做生意、有大额转账记录，香港开户会被拒吗</div><div class="twhy">消除可行性疑虑，推动行动中最后一个拦路虎。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">为什么越来越多做生意的人，在香港也放一份钱</div><div class="twhy">社会认同型，降低防御性，让「见过别人被冻」的人代入。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器2: 生意出事 -->
+  <div class="tcard push">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">生意出事 / 身边人出事</div>
+        <div class="trigger-sub">朋友公司被查、行业整顿、合伙人跑路</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：把一部分个人资产移到公司风险触及不到的地方。卡在：香港保单 / 账户能不能真正做到资产隔离？出事了还取得出来吗？</div>
+        <div class="moment-q">香港的个人资产，公司债务能追到吗？</div>
+        <div class="moment-q">如果真出事，香港那笔钱我还能用吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">生意遭遇风险</div><div class="asep">→</div>
+            <div class="astep a-key">搜「个人资产怎么和公司隔离」</div><div class="asep">→</div>
+            <div class="astep a-key">确认香港资产隔离的有效性</div><div class="asep">→</div>
+            <div class="astep a-end">咨询具体怎么操作</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">公司出问题，个人在香港的资产会被追吗</div><div class="twhy">直接回答他最担心的问题，消除核心疑虑后推动开户。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">生意人为什么要把个人资产和公司资产分开放</div><div class="twhy">建立"家企分离"认知，让他意识到这是必要操作而非有钱人专属。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">香港保单的资产隔离功能，具体是怎么实现的</div><div class="twhy">信息验证型，解答机制疑问，适合已有方向但需要确认细节的人。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器3: 人民币升值窗口 -->
+  <div class="tcard push hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">人民币升值窗口</div>
+        <div class="trigger-sub">2026年人民币触及6.81新高，换美元成本最低点</div>
+        <div class="trigger-badge" style="background:#FFF3CD;color:#856404;border:1px solid #FFE68A">★ 当前时机</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要配置一部分美元资产。卡在：现在动手还是再等？以及具体怎么操作。分三类人：①第一次想做被升值触发 ②港卡开了但钱趴着没动 ③已在买美元但放的地方不对。</div>
+        <div class="moment-q">人民币还会继续升吗？现在换会不会换早了？</div>
+        <div class="moment-q">有港卡了，钱汇进去之后该怎么放？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">看到升值新闻</div><div class="asep">→</div>
+            <div class="astep a-key">搜「现在换美元合适吗」</div><div class="asep">→</div>
+            <div class="astep a-key">需要有人给出判断并告知第一步</div><div class="asep">→</div>
+            <div class="astep a-end">咨询配置方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">人民币升值到6.8，现在换美元合适吗——我的判断</div><div class="twhy">直接给结论，消除「会不会换早了」的犹豫，时效性强。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">为什么我选择在人民币升值的时候配置美元（而不是等它贬）</div><div class="twhy">反常识钩子，核心逻辑是结构对冲不是汇率投机，筛选有配置意识的人。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">有了港卡，钱汇进去之后第一步该做什么</div><div class="twhy">接住②类人群。港卡开通后的行动断层是普遍问题，这类人行动意愿极强。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">美元存内地银行 vs 存香港，真正的差距在哪</div><div class="twhy">接住③类人群，帮已有行动的人做迁移决策，转化路径短。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">第一次配置美元，多少钱合适——我的参考标准</div><div class="twhy">给行动锚点，降低"不知道配多少"的决策门槛。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器4: 税务/CRS -->
+  <div class="tcard push">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">税务 / CRS 信号</div>
+        <div class="trigger-sub">共同申报、海外账户信息交换、稽查加强</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：想分散资产但要合规。卡在：香港账户是否也在CRS申报范围内？合规操作和"藏钱"的边界在哪里？</div>
+        <div class="moment-q">香港账户的信息会被报给内地税务局吗？</div>
+        <div class="moment-q">合规地在香港放钱，和违规有什么区别？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">看到CRS/稽查相关新闻</div><div class="asep">→</div>
+            <div class="astep a-key">搜「香港账户CRS」「合规海外资产」</div><div class="asep">→</div>
+            <div class="astep a-key">确认合规路径</div><div class="asep">→</div>
+            <div class="astep a-end">咨询开户</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">CRS之下，在香港放钱还安全吗——把规则讲清楚</div><div class="twhy">消除合规焦虑，这是CRS话题人群最核心的疑虑。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">合规地在香港配置资产，和违规转移资产，差别在哪里</div><div class="twhy">帮他划清边界，给他"我是在合规操作"的心理安全感，推动行动。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">越来越多人开始研究海外资产配置，他们在防什么</div><div class="twhy">认知升级型，筛选有主动配置意识的用户。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器5: 突然有一笔大钱 -->
+  <div class="tcard push hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">突然有一笔大钱</div>
+        <div class="trigger-sub">拆迁补偿、公司套现、年终奖超预期、股票解锁</div>
+        <div class="trigger-badge" style="background:#FFF3CD;color:#856404;border:1px solid #FFE68A">★ 有时间节点</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">钱已到账，趴在活期里让人不安。方向已定：要配置，但不知道多少放香港、多少留内地、香港放什么工具。有明确的行动时间压力。</div>
+        <div class="moment-q">这笔钱，多少比例放香港合适？</div>
+        <div class="moment-q">放香港的那部分，存定期还是买储蓄险？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">大额资金到账</div><div class="asep">→</div>
+            <div class="astep a-key">搜「XXX万放哪里」「香港配置多少合适」</div><div class="asep">→</div>
+            <div class="astep a-key">需要有人帮他做分配方案</div><div class="asep">→</div>
+            <div class="astep a-end">预约方案咨询</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">突然有了一大笔钱，我是怎么分配的——内地和香港各放多少</div><div class="twhy">给他一个具体的分配参考，他最需要的是"有人帮我想清楚"。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">300万放香港，定期存款和储蓄险怎么选</div><div class="twhy">工具选择型，接住已经决定放香港、还在选工具的人。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">为什么我把长期的钱放香港，短期的钱放内地</div><div class="twhy">建立"时间维度分配"的配置思路，帮他理清决策框架。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器6: 身体出问题 -->
+  <div class="tcard push">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">身体出了问题</div>
+        <div class="trigger-sub">体检不好看、做了小手术、感受到身体走下坡</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给家人和自己做保障配置。卡在：香港重疾险和内地比真的值得吗？理赔的时候会不会有问题？</div>
+        <div class="moment-q">香港重疾险赔付的时候麻不麻烦，内地人能顺利拿到钱吗？</div>
+        <div class="moment-q">内地已经有重疾险了，香港的还有必要再买吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">体检 / 身边人生病</div><div class="asep">→</div>
+            <div class="astep a-key">搜「香港重疾险内地人能买吗」「香港保险理赔流程」</div><div class="asep">→</div>
+            <div class="astep a-key">确认理赔可行性</div><div class="asep">→</div>
+            <div class="astep a-end">咨询方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">内地人买了香港重疾险，出险之后怎么理赔——全流程讲清楚</div><div class="twhy">消除理赔疑虑，这是保障类产品最大的购买障碍。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">内地已有重疾险，香港的还需要吗——两者的真正差异</div><div class="twhy">帮有内地保险的人做决策，消除「重复买」的顾虑。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">为什么我医疗险在内地，重疾 / 长期储蓄在香港</div><div class="twhy">给出一个清晰的配置结构，帮他理解"两者不冲突"。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LIFE GROUP ==================== -->
+<div class="group">
+  <div class="group-title">人生节点类 — 钱的归属和任务发生了变化</div>
+
+  <!-- 触发器7: 婚姻节点 -->
+  <div class="tcard life hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">婚姻节点</div>
+        <div class="trigger-sub">婚前有积蓄，结婚意味着钱的归属需要重新定义</div>
+        <div class="trigger-badge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 高转化</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：这笔钱要独立安排，不并进共同账户。卡在：用什么工具才能让这笔钱在法律上真的属于我，而不是说说而已？</div>
+        <div class="moment-q">香港的资产，婚后算不算夫妻共同财产？</div>
+        <div class="moment-q">万一离婚，香港那笔钱保得住吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">确定要结婚</div><div class="asep">→</div>
+            <div class="astep a-key">想把婚前那笔钱独立安排</div><div class="asep">→</div>
+            <div class="astep a-key">搜「婚前资产怎么保护」「香港账户婚后归属」</div><div class="asep">→</div>
+            <div class="astep a-end">咨询具体方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">婚前存进香港的那笔钱，婚后还算我自己的吗</div><div class="twhy">精准命中核心疑虑，消除法律层面的不确定感，直接推动行动。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">结婚前，我是怎么把婚前积蓄安排好的（真实经历）</div><div class="twhy">人格内容+决策内容双属性，卡罗本人有婚礼素材，可信度高。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">受益人怎么设，才能真正保护到自己想保护的人</div><div class="twhy">高咨询触发，有具体问题的人看到这条会主动发私信。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">婚内如何合法地保留一笔自己说了算的钱</div><div class="twhy">说出她不好意思开口说的话，情绪共鸣后给解决方案。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器8: 离婚/身边人离婚 -->
+  <div class="tcard life">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">离婚 / 身边人离婚</div>
+        <div class="trigger-sub">朋友离婚资产被分走，触发自我保护意识</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给资产加一层隔离。卡在：香港保单的隔离是真实有效的，还是只是"听起来安全"？离婚时对方能不能强制要求分割？</div>
+        <div class="moment-q">离婚时法院能强制执行香港的资产吗？</div>
+        <div class="moment-q">保单受益人设好了，真的能保住这笔钱吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">朋友离婚资产被分</div><div class="asep">→</div>
+            <div class="astep a-key">意识到自己也需要保护</div><div class="asep">→</div>
+            <div class="astep a-key">搜「香港资产离婚能保住吗」</div><div class="asep">→</div>
+            <div class="astep a-end">咨询隔离方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">离婚时，香港账户里的钱对方能要求分割吗</div><div class="twhy">直接回答最核心的法律疑虑，消除顾虑后推动配置行动。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">香港保单的资产隔离，具体能保护到什么程度</div><div class="twhy">给出边界感，让他对这个工具有明确预期，而非模糊的安全感。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">朋友离婚了，我才意识到这件事应该提前做</div><div class="twhy">叙事型，触发「见过别人」的人代入，情绪路径自然。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器9: 孩子节点 -->
+  <div class="tcard life hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">孩子出生 / 关键年龄</div>
+        <div class="trigger-sub">出生 / 5岁 / 初中留学倒计时 / 高中费用落地</div>
+        <div class="trigger-badge" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA5">★ 高转化</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给孩子存一笔钱。卡在：现在开始来不来得及？存多少够用？用什么工具才能锁住不被挪用？万一自己出事这笔钱还在吗？</div>
+        <div class="moment-q">孩子5岁了，现在开始存教育金来得及吗？</div>
+        <div class="moment-q">我如果出事，孩子的那笔钱有没有保障？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">孩子到关键年龄节点</div><div class="asep">→</div>
+            <div class="astep a-key">搜「孩子教育金怎么存」「香港给孩子存钱」</div><div class="asep">→</div>
+            <div class="astep a-key">确认工具选择和时间可行性</div><div class="asep">→</div>
+            <div class="astep a-end">咨询方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">孩子现在X岁，给他存一笔18岁才能动的钱，来得及吗</div><div class="twhy">时间焦虑型，反常识给结论「来得及，而且越早差越多」，用数字击穿犹豫。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">万一我出事，孩子的教育金怎么办——这个问题我提前想清楚了</div><div class="twhy">情绪强，触发「保单持有人与受益人分离」设计的核心场景。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">孩子要出国留学，到时候需要多少钱——很多家长算少了</div><div class="twhy">用具体数字制造紧迫感，触发「现在就要开始」的行动意愿。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">同样是每月存5000，5岁和10岁开始，孩子18岁时差多少</div><div class="twhy">具体数字让复利可见，是推动「现在就开始」最有效的内容形式。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器10: 父母变老 -->
+  <div class="tcard life">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">父母开始老了</div>
+        <div class="trigger-sub">父母退休、生病、开始需要子女承担</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给父母安排一笔养老钱。卡在：直接给现金怕被乱花或骗走，但不知道用什么结构能保证他们每年稳定用到。</div>
+        <div class="moment-q">钱给了父母，怎么保证他们真的能每年稳定领到？</div>
+        <div class="moment-q">父母不在香港，香港的方案他们用起来方便吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">父母退休 / 开始生病</div><div class="asep">→</div>
+            <div class="astep a-key">想安排一笔稳定的养老钱</div><div class="asep">→</div>
+            <div class="astep a-key">搜「给父母存养老金」「长期现金流怎么安排」</div><div class="asep">→</div>
+            <div class="astep a-end">咨询具体方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">我给爸妈安排了一笔钱，确保他们每年都能稳定领到</div><div class="twhy">叙事型，真实经历切入，解答「怎么保证他们能用到」的核心疑虑。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">不想直接给父母现金，有没有更好的安排方式</div><div class="twhy">说出他不好意思直说的顾虑（怕父母乱花），共鸣后给解决方案。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器11: 身边人重病/意外 -->
+  <div class="tcard life">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">身边人重病 / 意外离世</div>
+        <div class="trigger-sub">朋友重病医疗费压垮家庭 / 意外去世引发遗产纠纷</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给家人做好提前安排，别让他们以后陷入同样的处境。卡在：受益人怎么设才有效？身故保障和储蓄能同时解决吗？</div>
+        <div class="moment-q">身故之后，钱能直接到我想给的那个人手里吗？</div>
+        <div class="moment-q">遗产继承手续很麻烦，保单能绕开这些流程吗？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">身边人出事</div><div class="asep">→</div>
+            <div class="astep a-key">「如果是我，家人怎么办」</div><div class="asep">→</div>
+            <div class="astep a-key">搜「受益人怎么设」「身故后钱怎么传给家人」</div><div class="asep">→</div>
+            <div class="astep a-end">咨询方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">如果我突然不在了，钱能直接到我想给的那个人手里吗</div><div class="twhy">直接切入受益人设置的核心价值，情绪触发强，行动意愿高。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">朋友出事之后，我才意识到受益人设置有多重要</div><div class="twhy">叙事型钩子，触发「见过别人出事」的人代入，自然引出行动。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PULL GROUP ==================== -->
+<div class="group">
+  <div class="group-title">拉力类 — 外面有更好的去处</div>
+
+  <!-- 触发器12: 身边人做了 -->
+  <div class="tcard pull hl">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">身边人"做了"并且分享</div>
+        <div class="trigger-sub">朋友拿出保单 / 同事说开了港卡 / 社群里有人在晒</div>
+        <div class="trigger-badge" style="background:#DDE3F5;color:#2D4A9A;border:1px solid #7B8EC8">★ 流量最大</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：我也要做。卡在：自己的情况适不适合？门槛够不够？第一步该迈哪里？选哪家银行 / 哪个产品？</div>
+        <div class="moment-q">我的资产规模，够开香港账户 / 买港险吗？</div>
+        <div class="moment-q">第一次去香港，该做什么、去哪家、流程是什么？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">听说身边人在做</div><div class="asep">→</div>
+            <div class="astep a-key">搜「内地人怎么开香港账户」「港险怎么买」</div><div class="asep">→</div>
+            <div class="astep a-key">确认门槛和第一步</div><div class="asep">→</div>
+            <div class="astep a-end">找人带着做第一次</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">内地人在香港开户，现在还方便吗——2026年最新情况</div><div class="twhy">搜索量大，时效性钩子。直接消除「门槛够不够 / 现在方便吗」的疑虑。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">有了港卡之后，下一步该怎么走——路径图</div><div class="twhy">接住已经开卡、不知道下一步的人，这是高意向的断层地带。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">第一次配置香港资产，从哪一步开始——给新手的路径</div><div class="twhy">降低行动门槛，给出清晰的第一步，适合完全没做过的人。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">多少钱才适合开始配置香港资产——我的参考标准</div><div class="twhy">消除「我的规模够吗」的门槛焦虑，拉低行动门槛。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器13: 考虑移民/留后路 -->
+  <div class="tcard pull">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">考虑移民 / 留后路</div>
+        <div class="trigger-sub">不一定真移民，开始研究海外身份和资产布局</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：资产要提前布局。卡在：香港在这条路上是第一步还是一环？先做香港还是直接去新加坡/其他地方？</div>
+        <div class="moment-q">香港账户在移民规划里是必要的吗，还是可以跳过？</div>
+        <div class="moment-q">香港只是一个跳板，还是本身就值得长期放钱？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">开始研究海外身份</div><div class="asep">→</div>
+            <div class="astep a-key">搜「移民资产怎么提前布局」「香港账户在移民里的作用」</div><div class="asep">→</div>
+            <div class="astep a-key">明确香港的定位</div><div class="asep">→</div>
+            <div class="astep a-end">咨询开户</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">考虑留后路的人，为什么都先从香港开始</div><div class="twhy">明确香港在这条路上的定位，消除「要不要跳过香港」的疑虑。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">不是为了跑，是为了给自己留选择权——我为什么开始在香港放钱</div><div class="twhy">降低防御性，把「留后路」重新定义为「保留选择权」，更容易被接受。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 触发器14: 业务跑通的个体户 -->
+  <div class="tcard pull">
+    <div class="tcard-inner">
+      <div class="tcard-trigger">
+        <div class="accent"></div>
+        <div class="trigger-name">业务跑通的个体户 / 一人公司</div>
+        <div class="trigger-sub">收入够但没有单位兜底，没有任何长期积累</div>
+      </div>
+      <div class="tcard-moment">
+        <div class="col-label">卡在哪里</div>
+        <div class="moment-stuck">方向已定：要给自己搭一套替代社保的保障体系。卡在：从哪里开始？香港的方案和内地社保比，真的能替代吗？</div>
+        <div class="moment-q">没有社保，香港的方案能填上养老这个缺口吗？</div>
+        <div class="moment-q">一人公司的钱，个人账户和对公账户怎么分配才合理？</div>
+        <div style="margin-top:8px">
+          <div class="action-arrow">
+            <div class="astep">意识到个人资产一片空白</div><div class="asep">→</div>
+            <div class="astep a-key">搜「没有社保怎么办」「自由职业养老怎么做」</div><div class="asep">→</div>
+            <div class="astep a-key">确认香港方案能否替代社保功能</div><div class="asep">→</div>
+            <div class="astep a-end">咨询方案</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-topics">
+        <div class="col-label">选题方向</div>
+        <div class="topics-list">
+          <div class="titem">
+            <div class="tbadge tbadge-a">A级</div>
+            <div><div class="ttitle">没有社保，香港的方案能替代养老这个缺口吗</div><div class="twhy">直接回答核心疑虑，消除「这真的能用吗」的顾虑后推动行动。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-b">B级</div>
+            <div><div class="ttitle">一人公司赚到钱了，第一步该给自己配什么</div><div class="twhy">给出明确的行动路径，他不缺钱缺的是知道从哪里开始。</div></div>
+          </div>
+          <div class="titem">
+            <div class="tbadge tbadge-c">补充</div>
+            <div><div class="ttitle">业务跑了5年，个人资产却一片空白——我是怎么开始改变的</div><div class="twhy">叙事型，情感代入强，适合系列内容的引子。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="fnote">
+  <strong>使用说明：</strong>
+  每一个触发器对应的内容，核心任务只有一个——消除他卡住的那个具体疑虑，然后告诉他第一步怎么走。<br>
+  不是教育他"为什么要配置"，不是共情他的痛苦，是精准接住一个已经决定了方向的人。<br><br>
+  <strong>「对应账号」列</strong>由团队根据各IP定位自行填写。<strong>★ 标注触发器</strong>为当前优先主攻方向。<strong>A级选题</strong>直接进排期，<strong>B/C级</strong>作为补充池按需取用。
+</div>
+<div class="ver">内地中产资金决策地图 · V2.0 · 2026.06</div>
+
+</div>
+</body>
+</html>
