@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思彤 IP 内容总控知识库 V3.0</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F5F4F0;color:#1A1A1A;font-size:14px;line-height:1.6}
+.page{max-width:980px;margin:0 auto;padding:48px 28px 80px}
+
+/* 工具栏 */
+.toolbar{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #E6E4DE;margin:-48px -28px 40px;padding:10px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.toolbar-label{font-size:11px;color:#999;margin-right:4px}
+.btn{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid #D3D1C7;background:#fff;color:#444;cursor:pointer;white-space:nowrap;transition:all .15s}
+.btn:hover{background:#F5F4F0}
+.btn.primary{background:#3C3489;border-color:#3C3489;color:#fff}
+.btn.primary:hover{background:#534AB7}
+.btn.active{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489}
+.edit-hint{font-size:11px;color:#3C3489;margin-left:auto}
+
+[]{outline:none;border-radius:3px;transition:background .15s}
+[]:hover{background:rgba(83,74,183,.04)}
+[]:focus{background:rgba(83,74,183,.07);box-shadow:0 0 0 2px rgba(83,74,183,.15)}
+
+.hd{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid #E6E4DE}
+.hd h1{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.hd-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.hd-tag{font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #D3D1C7;color:#5F5E5A;background:#fff}
+
+.section{margin-bottom:44px}
+.sec-title{font-size:11px;font-weight:600;letter-spacing:.08em;color:#888780;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:#E6E4DE}
+
+/* 定位核心 */
+.core-box{background:#fff;border:1px solid #E6E4DE;border-radius:12px;padding:22px 26px;margin-bottom:12px}
+.core-label{font-size:10px;font-weight:600;letter-spacing:.08em;color:#B4B2A9;margin-bottom:8px}
+.core-sentence{font-size:15px;font-weight:600;color:#111;line-height:1.65;margin-bottom:12px}
+.core-note{font-size:12px;color:#666;line-height:1.8;padding-top:12px;border-top:1px solid #F0EDE6}
+.core-note strong{color:#333}
+
+.contrast-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.cbox{border-radius:10px;padding:14px 16px}
+.cbox.no{background:#FAECE7;border:1px solid #F5C4B3}
+.cbox.yes{background:#E1F5EE;border:1px solid #9FE1CB}
+.cbox-title{font-size:10px;font-weight:600;letter-spacing:.06em;margin-bottom:8px}
+.cbox.no .cbox-title{color:#993C1D}
+.cbox.yes .cbox-title{color:#085041}
+.cbox-list{list-style:none;font-size:12px;line-height:2.1}
+.cbox.no .cbox-list{color:#712B13}
+.cbox.yes .cbox-list{color:#0F6E56}
+
+.trust-chain{display:flex;align-items:stretch;background:#fff;border:1px solid #E6E4DE;border-radius:12px;overflow:hidden}
+.tnode{flex:1;padding:16px 14px;text-align:center;border-right:1px solid #F0EDE6}
+.tnode:last-child{border-right:none}
+.tnode-name{font-size:12px;font-weight:600;color:#111;margin-bottom:4px}
+.tnode-desc{font-size:11px;color:#888;line-height:1.5}
+.tnode.key{background:#FDFBF5}
+
+/* 用户画像双栏 */
+.portrait-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pcard{background:#fff;border:1px solid #E6E4DE;border-radius:12px;overflow:hidden}
+.pcard-head{padding:14px 18px;border-bottom:1px solid #F0EDE6;display:flex;align-items:center;gap:8px}
+.pcard-accent{width:4px;height:36px;border-radius:2px;flex-shrink:0}
+.pcard-name{font-size:13px;font-weight:600;color:#111}
+.pcard-sub{font-size:11px;color:#888;margin-top:1px}
+.pcard-body{padding:14px 18px;display:flex;flex-direction:column;gap:12px}
+.pcard-section-title{font-size:10px;font-weight:600;color:#B4B2A9;letter-spacing:.06em;margin-bottom:5px}
+.pcard-text{font-size:12px;color:#444;line-height:1.8}
+.pcard-text .hl{background:#FDFBF5;border-left:3px solid #D4A856;padding:5px 10px;border-radius:0 5px 5px 0;display:block;margin:4px 0;font-style:italic;color:#555}
+.path-steps{display:flex;flex-direction:column;gap:4px}
+.path-step{font-size:11px;padding:5px 10px;border-radius:5px;background:#F9F8F5;border:1px solid #EEECEA;color:#444;line-height:1.5}
+.path-step.key{background:#EEEDFE;border-color:#C8C3F0;color:#3C3489}
+.path-step.end{background:#E1F5EE;border-color:#9FE1CB;color:#085041;font-weight:500}
+.path-arrow{font-size:10px;color:#CCC;text-align:center}
+
+/* 内容三层 */
+.layer-wrap{display:flex;flex-direction:column;gap:12px}
+.layer{background:#fff;border:1px solid #E6E4DE;border-radius:12px;overflow:hidden}
+.layer-head{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid #F0EDE6}
+.layer-accent{width:4px;height:36px;border-radius:2px;flex-shrink:0}
+.layer-meta{flex:1}
+.layer-name{font-size:13px;font-weight:600;color:#111}
+.layer-desc{font-size:11px;color:#888;margin-top:2px}
+.layer-pct{font-size:12px;font-weight:500;padding:2px 10px;border-radius:20px;background:#F1EFE8;color:#5F5E5A}
+.layer-body{padding:14px 18px}
+.layer-intro{font-size:12px;color:#555;line-height:1.75;padding:10px 14px;border-radius:8px;margin-bottom:12px}
+.layer-intro.amber{background:#FDFBF5;border:1px solid #EDE3C4}
+.layer-intro.red{background:#FDF5F4;border:1px solid #F5C4B3}
+.layer-intro.blue{background:#F3F5FC;border:1px solid #C8C3F0}
+.layer-intro.green{background:#F4FAF3;border:1px solid #9FE1CB}
+
+/* 选题分组 */
+.subline{font-size:10px;font-weight:600;color:#B4B2A9;letter-spacing:.06em;margin:12px 0 7px;display:flex;align-items:center;gap:8px}
+.subline-add{font-size:10px;padding:1px 8px;border-radius:12px;border:1px solid #9FE1CB;background:#E1F5EE;color:#085041;cursor:pointer}
+.subline-add:hover{background:#9FE1CB}
+.topic-group{display:flex;flex-direction:column;gap:6px}
+.tcard-wrap{position:relative}
+.tcard{display:flex;align-items:flex-start;gap:8px;padding:9px 36px 9px 11px;border-radius:7px;border:1px solid #F0EDE6;background:#FAFAF8}
+.tcard:hover{background:#F5F4F0}
+
+.tcard-wrap:hover 
+
+
+.tbadge{flex-shrink:0;font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;margin-top:1px;white-space:nowrap;cursor:pointer}
+.tbadge:hover{opacity:.8}
+.tbadge-a{background:#EEEDFE;color:#3C3489}
+.tbadge-b{background:#E1F5EE;color:#085041}
+.tbadge-c{background:#F1EFE8;color:#5F5E5A}
+.ttitle{font-size:12px;font-weight:500;color:#111;line-height:1.45;margin-bottom:2px}
+.twhy{font-size:11px;color:#999;line-height:1.4}
+.ttag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:10px;margin-right:3px;margin-bottom:2px;font-weight:500}
+.ttag-lao{background:#FFF3CD;color:#856404;border:1px solid #FFE68A}
+.ttag-er{background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9}
+.ttag-both{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8}
+
+/* 语言风格 */
+.style-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.scard{border-radius:10px;padding:14px 16px}
+.scard.no{background:#FAECE7;border:1px solid #F5C4B3}
+.scard.yes{background:#E1F5EE;border:1px solid #9FE1CB}
+.scard-title{font-size:10px;font-weight:600;letter-spacing:.06em;margin-bottom:8px}
+.scard.no .scard-title{color:#993C1D}
+.scard.yes .scard-title{color:#085041}
+.scard-list{list-style:none;font-size:12px;line-height:2.1}
+.scard.no .scard-list{color:#712B13}
+.scard.yes .scard-list{color:#0F6E56}
+.phrase-box{background:#fff;border:1px solid #E6E4DE;border-radius:10px;padding:14px 18px}
+.phrase-label{font-size:11px;font-weight:600;color:#888;margin-bottom:10px}
+.phrase-grid{display:flex;flex-wrap:wrap;gap:6px}
+.phrase{font-size:12px;padding:3px 11px;border-radius:20px;background:#F9F8F5;border:1px solid #E6E4DE;color:#444}
+
+/* 目标路径 */
+.goal-steps{display:flex;flex-direction:column;gap:8px}
+.gstep{background:#fff;border:1px solid #E6E4DE;border-radius:8px;padding:13px 17px;display:flex;gap:12px}
+.gnum{width:22px;height:22px;border-radius:50%;background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.gtext{font-size:12px;color:#333;line-height:1.65}
+.gtext strong{font-weight:600;color:#111;display:block;margin-bottom:1px}
+
+
+
+.ver{margin-top:40px;font-size:11px;color:#CCC;text-align:right}
+
+@media(max-width:680px){
+  .contrast-wrap,.style-grid,.portrait-grid{grid-template-columns:1fr}
+  .trust-chain{flex-direction:column}
+  .tnode{border-right:none;border-bottom:1px solid #F0EDE6}
+  .toolbar{margin:-48px -28px 32px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+
+<div class="hd">
+  <h1>思彤 IP 内容总控知识库</h1>
+  <div class="hd-meta">
+    <span class="hd-tag">V3.0</span>
+    <span class="hd-tag">2026.06</span>
+    <span class="hd-tag">账号负责人：待定</span>
+    <span class="hd-tag">内容主导：ren</span>
+  </div>
+</div>
+
+<!-- 一、核心定位 -->
+<div class="section">
+  <div class="sec-title">一 · 核心定位</div>
+
+  <div class="core-box">
+    <div class="core-label">定位句</div>
+    <div class="core-sentence">大家拼命做生意，就是为了托举。<br>我爸妈做到了，现在我帮更多潮汕家庭做同样的事。</div>
+    <div class="core-note">
+      思彤的核心资产：<strong>她的故事本身就是一个完整的转化漏斗。</strong><br>
+      父母华强北淘金→给5个孩子每人存教育金→生意受冲击→那笔钱还在→思彤用它来了香港→现在她帮潮汕家庭做同样的事。<br><br>
+      这条故事线对两个人群同时有效：<br>
+      · 潮汕老板看到父母的部分，感同身受——"这就是我"<br>
+      · 潮汕二代看到思彤的部分，想到自己——"我也要给孩子做这件事"<br><br>
+      她不是站在外部给建议，她是从内部说话。年龄和形象偏年轻不是劣势，是核心资产——潮汕老板看到她，会想到自己的孩子。
+    </div>
+  </div>
+
+  <div class="contrast-wrap">
+    <div class="cbox no">
+      <div class="cbox-title">❌ 不要做成</div>
+      <ul class="cbox-list">
+        <li>作为专业顾问，我建议……</li>
+        <li>香港保险有这些优势……</li>
+        <li>教育金为什么重要……</li>
+        <li>故作老成，讲道理</li>
+      </ul>
+    </div>
+    <div class="cbox yes">
+      <div class="cbox-title">✅ 应该做成</div>
+      <ul class="cbox-list">
+        <li>我爸妈当年在华强北……</li>
+        <li>我发现很多叔叔阿伯……</li>
+        <li>我用那笔钱来了香港……</li>
+        <li>真实、圈内人、懂行的晚辈</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="trust-chain">
+    <div class="tnode">
+      <div class="tnode-name">身份认同</div>
+      <div class="tnode-desc">同是潮汕人，是自己人，不用解释背景</div>
+    </div>
+    <div class="tnode key">
+      <div class="tnode-name">晚辈信任 ★</div>
+      <div class="tnode-desc">优秀、懂事，像老板希望孩子成为的那种人</div>
+    </div>
+    <div class="tnode">
+      <div class="tnode-name">故事背书</div>
+      <div class="tnode-desc">她家就是这样走过来的，她懂这件事的价值</div>
+    </div>
+    <div class="tnode">
+      <div class="tnode-name">自然咨询</div>
+      <div class="tnode-desc">请教懂行晚辈，不是找顾问，门槛极低</div>
+    </div>
+  </div>
+</div>
+
+<!-- 二、用户画像与决策路径 -->
+<div class="section">
+  <div class="sec-title">二 · 用户画像与决策路径</div>
+  <div class="portrait-grid">
+
+    <!-- 潮汕老板 -->
+    <div class="pcard">
+      <div class="pcard-head">
+        <div class="pcard-accent" style="background:#C0756A"></div>
+        <div>
+          <div class="pcard-name">潮汕老板（父母辈）</div>
+          <div class="pcard-sub">45-60岁 · 年交50-100万 · 可做保费融资</div>
+        </div>
+      </div>
+      <div class="pcard-body">
+        <div>
+          <div class="pcard-section-title">他们是谁</div>
+          <div class="pcard-text">电子元器件、内衣厂、零配件、外贸、建材——华强北那一批，经历过最好的年代，也经历了电商冲击和疫情。子女多，家族观念重，祠堂文化，拼命做生意是为了托举下一代。钱全压在生意里，生意账和家庭账混在一起。</div>
+        </div>
+        <div>
+          <div class="pcard-section-title">触发点</div>
+          <div class="pcard-text">
+            <span class="hl">生意越来越难做，以前all in能赚大钱，现在all in可能亏掉。</span>
+            <span class="hl">身边有人出事——账户被冻、公司被查。</span>
+            开始想：万一我出事，家里真正留下来的有多少？
+          </div>
+        </div>
+        <div>
+          <div class="pcard-section-title">决策路径</div>
+          <div class="path-steps">
+            <div class="path-step">生意受冲击，开始想压舱石</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">意识到：所有钱在生意里，家庭没有真正的底</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">存内地？利率太低。再投生意？风险太大。</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step key">开始接触香港这个方向</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">疑虑①：钱放出去安全吗，生意出事会追到吗</div>
+            <div class="path-step">疑虑②：我有大额流水，能开户吗</div>
+            <div class="path-step">疑虑③：比内地好多少，值不值</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step end">疑虑消除 → 行动</div>
+          </div>
+        </div>
+        <div>
+          <div class="pcard-section-title">真正在意的（按优先级）</div>
+          <div class="pcard-text">① 安全隔离——生意出事，这笔钱动不了<br>② 能传下去——按我意愿到孩子手里<br>③ 收益——比内地高，但不是核心驱动</div>
+        </div>
+        <div>
+          <div class="pcard-section-title">保费融资切入角度</div>
+          <div class="pcard-text">不叫"保费融资"，叫"用做生意的思路来存钱"。炒房、炒货、贷款拿铺位——自己出小部分，撬动大收益，潮汕老板听得懂这个逻辑。年交50-100万，通过保费融资保单可接近1000万。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 潮汕二代 -->
+    <div class="pcard">
+      <div class="pcard-head">
+        <div class="pcard-accent" style="background:#7B8EC8"></div>
+        <div>
+          <div class="pcard-name">潮汕二代</div>
+          <div class="pcard-sub">30-40岁 · 年交30万以内 · 教育金为主</div>
+        </div>
+      </div>
+      <div class="pcard-body">
+        <div>
+          <div class="pcard-section-title">他们是谁</div>
+          <div class="pcard-text">被父母托举出来的孩子——送去好学校，来深圳，去香港，有些出国。自己也在做生意，或接手家族生意，或在外打拼。见过父母辈被冲击，风险意识比父辈更早被激活。有了孩子，开始想传承。</div>
+        </div>
+        <div>
+          <div class="pcard-section-title">触发点</div>
+          <div class="pcard-text">
+            <span class="hl">孩子出生，开始认真想这件事。</span>
+            <span class="hl">父母托举的记忆——爸妈当年给我存了那笔钱，我用它来了香港。我要给孩子做同样的安排。</span>
+            真实案例：同学老公在水贝做黄金，买保险是为了"专款专用给孩子的教育金，既然那么重视，就要准备好"。
+          </div>
+        </div>
+        <div>
+          <div class="pcard-section-title">决策路径</div>
+          <div class="path-steps">
+            <div class="path-step">孩子出生，想给孩子专款专用存一笔</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">父母当年给我存了，我要给孩子做同样的事</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">卡在：现金会花掉，黄金变现麻烦，房子说不准</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step key">开始了解香港这个选项</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step">疑虑①：现在开始来得及吗</div>
+            <div class="path-step">疑虑②：存多少合适，怎么存</div>
+            <div class="path-step">疑虑③：如果我出事了，这笔钱能到孩子手里吗</div>
+            <div class="path-arrow">↓</div>
+            <div class="path-step end">疑虑消除 → 行动意愿极强</div>
+          </div>
+        </div>
+        <div>
+          <div class="pcard-section-title">真正在意的（按优先级）</div>
+          <div class="pcard-text">① 专款专用——锁死给孩子，不被其他事挪用<br>② 我出事了这笔钱还在——受益人设计<br>③ 来得及吗——时间窗口焦虑</div>
+        </div>
+        <div>
+          <div class="pcard-section-title">思彤的共鸣点</div>
+          <div class="pcard-text">思彤就是那个被托举的孩子。她爸妈在华强北最忙的那些年，还是给5个孩子每人存了一份钱。后来生意不好做了，那笔钱还在。思彤用它来了香港。她不是在讲道理，她就是活的证明。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 三、内容三层结构与选题库 -->
+<div class="section">
+  <div class="sec-title">三 · 内容三层结构与选题库</div>
+  <div class="layer-wrap">
+
+    <!-- 第一层：潮汕文化 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-accent" style="background:#D4A856"></div>
+        <div class="layer-meta">
+          <div class="layer-name">潮汕文化系列 · 流量入口</div>
+          <div class="layer-desc">用族群认同吸引进来，用真实故事留住，不谈产品</div>
+        </div>
+        <div class="layer-pct">20%</div>
+      </div>
+      <div class="layer-body">
+        <div class="layer-intro amber">
+          <strong>核心逻辑：</strong>潮汕老板不会主动搜"香港资产配置"，但会刷到"潮汕人"相关内容。这层内容是漏斗最顶端——情感先行，信任前置，不谈钱。思彤的个性（摇滚、喝酒、有态度）可以在这里自然流露。
+        </div>
+                <div class="topic-group" id="group-culture">
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><div class="ttitle">《给阿嫲的情书》我也有一个这样托举我的阿嬷</div><div class="twhy">情感最强的人格内容。借《给阿妈的情书》热度，讲思彤自己的阿嫲故事。潮汕用户自然转发，建立"她是自己人"的深度连接。思彤说一看这部电影就会想起奶奶，这种真实情绪是最好的内容。</div></div></div></div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><div class="ttitle">潮汕阿叔阿伯的拼搏精神，如何影响了我</div><div class="twhy">人设内容。以晚辈视角讲潮汕老板群体——她从小看着他们长大，她是圈内人。结尾一句"我现在做的事，就是希望叔叔阿伯们赚的钱能真正留下来"，自然带出工作方向。</div></div></div></div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><div class="ttitle">潮汕女生在香港金融市场工作8年，颠覆我认知的5件事</div><div class="twhy">已有完整文案，可直接拍摄。五条内容：在岸/离岸人民币、潮汕老板在意安全不在意收益、内地vs香港利息差距、多元配置是必选项、父母之爱子则为其计深远。文案已完成。</div></div></div></div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><div class="ttitle">潮汕女生在香港8年，最爱的5家店</div><div class="twhy">轻松圈粉。吸引泛潮汕流量，让老板觉得"她真的在香港"。思彤提供真实推荐后填入。</div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二层：核心转化 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-accent" style="background:#C0756A"></div>
+        <div class="layer-meta">
+          <div class="layer-name">晚辈视角 × 决策内容 · 核心转化</div>
+          <div class="layer-desc">主语永远是"我"——思彤用自己的经历和观察接住卡在疑虑上的用户</div>
+        </div>
+        <div class="layer-pct">60%</div>
+      </div>
+      <div class="layer-body">
+        <div class="layer-intro red"><strong>选题判断标准：</strong>用户看完想到的是自己还是思彤？想到自己→对。想到思彤→重写。每条选题的主语是用户脑子里已经有的问题，思彤只是帮他说出来了。</div>
+
+        <div class="topic-group" id="group-core">
+
+          <!-- 潮汕老板线 -->
+          <div class="subline">▸ 针对潮汕老板：生意与家庭</div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">很多潮汕的叔叔阿伯，现在都不知道钱放哪里了</div><div class="twhy">先说出他们的真实处境：以前定存有三四个点，现在不到1%。股票不想搞，保险又抵触。钱趴着缩水，但不知道往哪走。说到他点头，再给方向。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">潮汕老板要不要来香港存钱？同样100万放内地和放香港，会有什么区别</div><div class="twhy">两层结构：普通老板看第一层收益（内地不到1万vs香港约3万），有远见的老板看第二层安全（生意怎么变，那笔钱稳稳留给孩子）。身份筛选自然发生，防御性极低。文案已有完整版本。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">潮汕老板不爱炒股不爱上杠杆，就是爱存钱——但现在存钱这件事变了</div><div class="twhy">肯定潮汕老板"爱存钱"的特质，再顺势说"存哪里才是对的"。族群认同激活后，"存香港"是自然延伸，不是推销。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">为什么来香港做资产配置的，潮汕老板特别多——我在香港这几年的观察</div><div class="twhy">社会认同结构。用户看完想到的是自己：为什么他们去？我要不要也去？"我的观察"是晚辈分享见闻，不是顾问推销，防御性极低。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-b" onclick="cycleBadge(this)">B级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">用做生意的思路来理解保费融资——炒房的逻辑，换个地方用</div><div class="twhy">思彤独有的内容，市面上几乎没有人用这个角度讲。炒房、炒货、贷款拿铺位——潮汕老板听得懂，自己出小部分撬动更大保单，稳健还能增值。不叫保费融资，叫"做生意的思路"。</div></div></div></div>
+
+          <!-- 潮汕二代线 -->
+          <div class="subline">▸ 针对潮汕二代：托举与传承</div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">我爸妈在华强北最忙的那几年，还是给我们5个孩子每人存了一份钱</div><div class="twhy">思彤最核心的人格内容，也是最强的转化内容。父母的远见→那笔钱让她来了香港→现在她帮更多潮汕家庭做同样的事。对二代来说这不是教育，是唤醒一个记忆：你被托举过，现在轮到你了。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">万一我出事，孩子那笔钱怎么办——我33岁，这件事我已经提前想清楚了</div><div class="twhy">第一人称，情绪强。思彤33岁、自己有存储观念、提前做了安排——这是真实的，不是表演。触发受益人设计核心场景，潮汕二代最深的焦虑。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">打算送孩子出国的潮汕老板，我当年来香港之前，我爸妈最后悔没做的一件事</div><div class="twhy">思彤以"孩子"身份说话，比顾问建议穿透力强十倍。"最后悔没做"制造悬念，对应送孩子出国这个高意愿人群。素材待思彤提供真实细节。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">潮汕老板最常问我的5个问题——我直接说清楚</div><div class="twhy">用户的问题驱动内容。用户看完想的是"这就是我想问的"，不是"她说得有道理"。五个问题直接命中两个人群的决策卡点。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-b" onclick="cycleBadge(this)">B级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">孩子在香港读书，生活费我是怎么给的——这个方式很多家长没想到</div><div class="twhy">具体操作场景，思彤以"在港生活者"身份给出真实方案。港卡场景自然承接，无销售感。</div></div></div></div>
+
+          <!-- 决策系列 -->
+          <div class="subline">▸ 用户决策系列：50-500万怎么打理</div>
+          <div style="font-size:11px;color:#888;padding:8px 12px;background:#FDFBF5;border:1px solid #EDE3C4;border-radius:7px;margin-bottom:6px">
+            <strong style="color:#555">系列逻辑：</strong>用金额做锚点，用户看到自己那个数字会停。结构固定：现状（存银行能拿多少）→ 三种工具对比 → 哪种适合你。换数字即是新内容，可批量出。合规提示：li息/li率/储xu/收溢按字符替换。数字用现场实拍，不用模拟数据。
+          </div>
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-both">两类</span><div class="ttitle">200万存在香港，一年到底能有多少li息——我现场问了几家银行</div><div class="twhy">已验证获客效果。现场拍摄建立真实感，具体数字锚点强。三种工具对比：定存→货币基金→储xu险，帮用户做完整决策。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-both">两类</span><div class="ttitle">100万存在香港，一年能拿多少——三种方式我帮你算清楚</div><div class="twhy">复用200万结构，覆盖更广量级。100万是更普遍的门槛，潜在用户基数更大。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-both">两类</span><div class="ttitle">500万放香港，我会怎么分配——长期和短期不能放一个篮子</div><div class="twhy">覆盖高净值用户，客单价更高。帮他做分配框架，不只是单一工具对比。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-b" onclick="cycleBadge(this)">B级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-both">两类</span><div class="ttitle">同样200万，存定存、买货币基金、放储xu险——10年后差多少</div><div class="twhy">时间维度对比，让复li可见。触发"我现在放的地方对不对"的自我审视。</div></div></div></div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 第三层：真实案例 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-accent" style="background:#7A9E6E"></div>
+        <div class="layer-meta">
+          <div class="layer-name">真实案例 · 信任加固</div>
+          <div class="layer-desc">不讲产品讲故事——用真实客户处境让用户代入"如果是我"</div>
+        </div>
+        <div class="layer-pct">20%</div>
+      </div>
+      <div class="layer-body">
+        <div class="layer-intro green"><strong>内容原则：</strong>不给结论，留悬念。案例里的人要真实，处境要具体。结尾不说"所以你应该买"，说"如果你也有类似的情况，私信我聊聊"。素材来自思彤真实客户，脱敏处理后使用。</div>
+                <div class="topic-group" id="group-case">
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-er">二代</span><div class="ttitle">我同学的老公在水贝做黄金生意，他来找我只说了一句话</div><div class="twhy">思彤真实成交案例。潮汕二代，做生意，孩子小，担心专款专用。"只说了一句话"留悬念，那句话是："既然我那么重视孩子教育，我就要准备好这笔钱。"素材真实，直接用。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-a" onclick="cycleBadge(this)">A级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-lao">老板</span><div class="ttitle">一个做生意的潮汕老板，来找我时只说"想把钱放安全点"，后来我们聊了一个下午</div><div class="twhy">"只说想放安全点"是潮汕老板典型开场。后来发现他真正需要的不是存钱，是把家庭和生意隔开。结尾留悬念，触发私信。素材待思彤提供。</div></div></div></div>
+
+          <div class="tcard-wrap"><div class="tcard"><span class="tbadge tbadge-b" onclick="cycleBadge(this)">B级</span><div class="tinfo" style="flex:1"><span class="ttag ttag-both">两类</span><div class="ttitle">客户跟我说的一句话，我一直记得：我不是不想规划，我是不知道从哪里开始</div><div class="twhy">说出潮汕老板有钱但没行动的真实内心。情绪共鸣后自然引导私信咨询。</div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 四、语言风格 -->
+<div class="section">
+  <div class="sec-title">四 · 语言风格</div>
+  <div class="style-grid">
+    <div class="scard no">
+      <div class="scard-title">❌ 不要这样说</div>
+      <ul class="scard-list">
+        <li>作为专业顾问，我建议……</li>
+        <li>这款产品的核心亮点……</li>
+        <li>教育金为什么重要……</li>
+        <li>老板们应该注意……</li>
+      </ul>
+    </div>
+    <div class="scard yes">
+      <div class="scard-title">✅ 要这样说</div>
+      <ul class="scard-list">
+        <li>我爸妈当年在华强北……</li>
+        <li>我发现很多叔叔阿伯……</li>
+        <li>来找我的客户通常都……</li>
+        <li>我用那笔钱来了香港……</li>
+      </ul>
+    </div>
+  </div>
+  <div class="phrase-box">
+    <div class="phrase-label">常用表达（晚辈感，不说教）</div>
+    <div class="phrase-grid">
+      <span class="phrase">我当年……</span>
+      <span class="phrase">我爸妈那时候……</span>
+      <span class="phrase">我发现很多叔叔阿伯……</span>
+      <span class="phrase">说实话……</span>
+      <span class="phrase">我自己是这样安排的……</span>
+      <span class="phrase">来找我的客户通常……</span>
+      <span class="phrase">我帮他们想过这个问题……</span>
+      <span class="phrase">这件事很多人想错了……</span>
+    </div>
+  </div>
+</div>
+
+<!-- 五、用户理想路径 -->
+<div class="section">
+  <div class="sec-title">五 · 用户看到思彤的理想路径</div>
+  <div class="goal-steps">
+    <div class="gstep"><div class="gnum">1</div><div class="gtext"><strong>第一感觉：她是自己人</strong><span>也是从潮汕出来的，懂我们这种家庭，懂潮汕人的处境。</span></div></div>
+    <div class="gstep"><div class="gnum">2</div><div class="gtext"><strong>第二感觉：她很优秀</strong><span>孩子要是能像她一样就好了——信任在这个念头里悄悄建立。</span></div></div>
+    <div class="gstep"><div class="gnum">3</div><div class="gtext"><strong>第三感觉：她说的就是我在想的事</strong><span>生意的钱怎么留、孩子的那笔钱、香港怎么安排——她都提到了，说的就是我的处境。</span></div></div>
+    <div class="gstep"><div class="gnum">4</div><div class="gtext"><strong>第四感觉：问问她</strong><span>不是找顾问，是请教一个懂行的潮汕晚辈——发私信门槛极低，自然发生。</span></div></div>
+  </div>
+</div>
+
+<div class="ver">思彤 IP 内容总控知识库 · V3.0 · 2026.06 · 内容主导：ren</div>
+</div>
+
+
+</body>
+</html>
